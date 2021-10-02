@@ -1,0 +1,215 @@
+import React, { useEffect, useState } from "react";
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+// core components
+import Header from "components/Header/Header.js";
+import HeaderLinks from "components/Header/HeaderLinks.js";
+import Footer from "components/Footer/Footer.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import GridItem from "components/Grid/GridItem.js";
+import Button from "components/CustomButtons/Button.js";
+import Card from "components/Card/Card.js";
+import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
+
+import styles from "assets/jss/material-kit-react/views/loginPage.js";
+
+import image from "assets/img/bg2.jpg";
+import { useHistory } from "react-router";
+
+const useStyles = makeStyles(styles);
+
+export default function SubscribePage(props) {
+  const [cardAnimaton, setCardAnimation] = useState("cardHidden");
+  setTimeout(function () {
+    setCardAnimation("");
+  }, 800);
+  const classes = useStyles();
+  const { ...rest } = props;
+
+  const pay150 = payment(150);
+  const pay300 = payment(300);
+
+  const openPayModal150 = () => {
+    let rzp1 = new window.Razorpay(pay150);
+    rzp1.open();
+  };
+  const openPayModal300 = () => {
+    let rzp1 = new window.Razorpay(pay300);
+    rzp1.open();
+  };
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  return (
+    <div>
+      <Header
+        absolute
+        color="transparent"
+        brand="SHRI SUDHA"
+        rightLinks={<HeaderLinks />}
+        {...rest}
+      />
+      <div
+        className={classes.pageHeader}
+        style={{
+          backgroundImage: "url(" + image + ")",
+          backgroundSize: "cover",
+          backgroundPosition: "top center",
+        }}
+      >
+        <div className={classes.container}>
+          <GridContainer justify="center">
+            <h3 className={classes.title}>
+              The Magazine is informative, narrating the inspiring incidents
+              from the lives of our saints, sages, and also other information
+              such as the importance of Punya Kshetras and even religious
+              remedies for problems in life.
+            </h3>
+            <GridItem xs={12} sm={12} md={4}>
+              <Card className={classes[cardAnimaton]}>
+                <CardBody>
+                  <ul
+                    style={{ fontWeight: 600, fontSize: "24px", color: "gray" }}
+                  >
+                    <li>
+                      {" "}
+                      <span
+                        style={{
+                          fontSize: "26px",
+                          color: "purple",
+                        }}
+                      >
+                        1
+                      </span>{" "}
+                      Year Subscription
+                    </li>
+                    <br />
+                    <li>
+                      <span
+                        style={{
+                          fontSize: "26px",
+                          color: "green",
+                        }}
+                      >
+                        12
+                      </span>{" "}
+                      - Books
+                    </li>
+                    <br />
+                    <li>
+                      @{" "}
+                      <span
+                        style={{
+                          fontSize: "26px",
+                          color: "green",
+                        }}
+                      >
+                        {" "}
+                        Rs. 150{" "}
+                      </span>{" "}
+                      /- only
+                    </li>
+                  </ul>
+                </CardBody>
+                <CardFooter className={classes.cardFooter}>
+                  <Button onClick={openPayModal150} color="primary" size="lg">
+                    Subscribe
+                  </Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={4}>
+              <Card className={classes[cardAnimaton]}>
+                <CardBody>
+                  <ul
+                    style={{ fontWeight: 600, fontSize: "24px", color: "gray" }}
+                  >
+                    <li>
+                      {" "}
+                      <span
+                        style={{
+                          fontSize: "26px",
+                          color: "purple",
+                        }}
+                      >
+                        2
+                      </span>{" "}
+                      Year Subscription
+                    </li>
+                    <br />
+                    <li>
+                      <span
+                        style={{
+                          fontSize: "26px",
+                          color: "green",
+                        }}
+                      >
+                        24
+                      </span>{" "}
+                      - Books
+                    </li>
+                    <br />
+                    <li>
+                      @{" "}
+                      <span
+                        style={{
+                          fontSize: "26px",
+                          color: "green",
+                        }}
+                      >
+                        {" "}
+                        Rs. 300{" "}
+                      </span>{" "}
+                      /- only
+                    </li>
+                  </ul>
+                </CardBody>
+                <CardFooter className={classes.cardFooter}>
+                  <Button onClick={openPayModal300} color="primary" size="lg">
+                    Subscribe
+                  </Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </div>
+        <Footer whiteFont />
+      </div>
+    </div>
+  );
+}
+function payment(amount) {
+  const history = useHistory();
+  return {
+    key: "rzp_test_YkCd4OxHtBFQbV",
+    amount: amount * 100,
+    name: "SHRI SUDHA",
+    description: "Your Paying for Shri Sudha subscription",
+    image: "https://cdn.razorpay.com/logos/7K3b6d18wHwKzL_medium.png",
+    handler: function (response) {
+      alert(
+        "PayId - " +
+          response.razorpay_payment_id +
+          " Your Payment successfully done !"
+      );
+      history.push("/");
+    },
+    prefill: {
+      name: "",
+      contact: "",
+      email: "",
+    },
+    notes: {
+      address: "some address",
+    },
+    theme: {
+      color: "blue",
+      hide_topbar: false,
+    },
+  };
+}
