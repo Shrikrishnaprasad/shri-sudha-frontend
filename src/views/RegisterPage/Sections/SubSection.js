@@ -14,13 +14,12 @@ import styles from "assets/jss/material-kit-react/views/landingPageSections/work
 
 const useStyles = makeStyles(styles);
 
-export default function WorkSection() {
+export default function SubSection() {
   const classes = useStyles();
   return (
     <div className={classes.section}>
       <GridContainer justify="center">
         <GridItem cs={12} sm={12} md={8}>
-          <h2 className={classes.title}>Register</h2>
           <h4 className={classes.description}>
             New registration only for Shri Sudha Tmail magazine
           </h4>
@@ -81,28 +80,7 @@ export default function WorkSection() {
                   }}
                 />
               </GridItem>
-              <GridItem xs={12} sm={12} md={12} lg={12}>
-                <h4 className={classes.title}>Create Login Details</h4>
-              </GridItem>
 
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type="email"
-                  labelText="Email Address"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type="password"
-                  labelText="Password"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                />
-              </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <Button type="submit" color="primary">
                   Register

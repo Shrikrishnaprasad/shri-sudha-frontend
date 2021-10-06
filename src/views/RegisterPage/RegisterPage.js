@@ -13,9 +13,9 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
+import RegisterTabs from "./Sections/RegisterTabs";
 
 // Sections for this page
-import WorkSection from "./Sections/WorkSection";
 
 const useStyles = makeStyles(styles);
 
@@ -41,8 +41,7 @@ export default function RegisterPage(props) {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <WorkSection />
-          <br />
+          <RegisterTabs />
         </div>
       </div>
       <Footer />
