@@ -13,6 +13,7 @@ import InfoArea from "components/InfoArea/InfoArea.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/productStyle.js";
 import classNames from "classnames";
+import { Person } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -41,8 +42,27 @@ export default function FounderSection() {
           </h5>
         </GridItem>
       </GridContainer>
+      <br />
       <div>
         <GridContainer>
+          <GridItem justify="center" xs={12} sm={12} md={12}>
+            <InfoArea
+              title="Hony. Secretary"
+              description={
+                <div>
+                  <ul>
+                    <li>
+                      <b>Sri R. Ananthan</b>, Chartered Accountant, Tiruppur.
+                      Ph: 0421-2201322 / 2243832
+                    </li>
+                  </ul>
+                </div>
+              }
+              icon={Person}
+              iconColor="primary"
+              horizontal
+            />
+          </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             <InfoArea
               title="Members"
@@ -50,20 +70,8 @@ export default function FounderSection() {
                 <div>
                   <ul>
                     <li>
-                      Srimushnam <b>Sri V. Nagarajachar</b>, Srirangam. Ph.
-                      2432181
-                    </li>
-                    <br />
-                    <li>
-                      <b>Sri V. Annaji Rao,</b>
-                      <br />
-                      11, Varidhi Nagar, Srirangam.
-                      <br /> Ph. 0431 – 2431515.
-                    </li>
-                    <br />
-                    <li>
-                      <b>Sri V. Sethuraman,</b>
-                      13, Narayanan St.,Kumbakonam – 612 001.
+                      <b>Sri V. Sethuraman, </b>
+                      Kumbakonam – 612 001.
                       <br /> Ph. 0435 – 2424364.
                     </li>
                   </ul>
@@ -82,14 +90,14 @@ export default function FounderSection() {
                   <ul>
                     <li>
                       Vedanta Vidwan
-                      <br /> <b> Sri S.V. Ramachandrachar</b>,
-                      Srirangam,Ph.6541320
+                      <b> Sri S.V. Ramachandrachar</b>, <br />
+                      Srirangam, Ph: 9080521849
                     </li>
                     <br />
                     <li>
                       <b>Sri T.S. Raghavendran,</b>
                       <br />
-                      M.A.B.L.,Advocate,Coimbatore
+                      M.A.B.L., Advocate, Coimbatore
                       <br /> Ph. 0422 – 2344853.
                     </li>
                   </ul>
@@ -107,13 +115,8 @@ export default function FounderSection() {
                 <p>
                   <ul>
                     <li>
-                      Srimushnam <b>Sri V. Nagarajachar</b>, Srirangam. Ph. 0431
-                      – 243 21 81.
-                    </li>
-                    <br />
-                    <li>
-                      Vedanta Vidwan <b>S. Yedunandhanachar</b>, Srirangam.
-                      Trichy - 620 006
+                      Vedanta Vidwan Sri <b>S. Yedunandhanachar</b>, <br />
+                      Srirangam. Ph: 9245442122
                     </li>
                   </ul>
                 </p>
