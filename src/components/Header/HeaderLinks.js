@@ -26,6 +26,15 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
+          onClick={() => history.push("/founder")}
+        >
+          Founder
+        </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Button
+          color="transparent"
+          className={classes.navLink}
           onClick={() => history.push("/subscribe")}
         >
           Subscribe

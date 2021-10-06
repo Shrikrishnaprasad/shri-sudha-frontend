@@ -7,6 +7,7 @@ import ProfilePage from "views/ProfilePage/ProfilePage.js";
 import LoginPage from "views/LoginPage/LoginPage.js";
 import RegisterPage from "views/RegisterPage/RegisterPage";
 import SubscribePage from "views/SubscribePage/SubscribePage";
+import FounderPage from "views/FounderPage/FounderPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/subscribe" component={SubscribePage} />
+      <Route exact path="/founder" component={FounderPage} />
     </Switch>
   );
 };

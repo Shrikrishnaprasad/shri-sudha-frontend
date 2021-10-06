@@ -12,16 +12,27 @@ import GridItem from "components/Grid/GridItem.js";
 import InfoArea from "components/InfoArea/InfoArea.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/productStyle.js";
+import classNames from "classnames";
 
 const useStyles = makeStyles(styles);
 
-export default function ProductSection() {
+export default function FounderSection() {
   const classes = useStyles();
+  const imageClasses = classNames(
+    classes.imgRaised,
+    classes.imgRounded,
+    classes.imgFluid
+  );
   return (
     <div className={classes.section}>
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={8}>
           <h2 className={classes.title}>FOUNDER</h2>
+          <img
+            alt="https://play-lh.googleusercontent.com/KjiDen-jMjvmdoQqm5xna8sehCt1H4OBVzD4K5CSu5Usu_ZBgYIgV_VugFxCJylCdQ"
+            src="https://i.ytimg.com/vi/CzTn2pII2GI/mqdefault.jpg"
+            className={imageClasses}
+          />
           <h5 className={classes.description}>
             <b>
               Paramapoojya Sri Sri Satyatma Tirtha Sreepaadangalavaru,
@@ -60,7 +71,7 @@ export default function ProductSection() {
               }
               icon={PeopleAlt}
               iconColor="primary"
-              horizontal
+              vertical
             />
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
@@ -86,7 +97,7 @@ export default function ProductSection() {
               }
               icon={Group}
               iconColor="success"
-              horizontal
+              vertical
             />
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
@@ -109,7 +120,7 @@ export default function ProductSection() {
               }
               icon={People}
               iconColor="info"
-              horizontal
+              vertical
             />
           </GridItem>
         </GridContainer>
