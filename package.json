@@ -12,6 +12,7 @@
     "moment": "2.29.1",
     "node-sass": "6.0.0",
     "nouislider": "15.1.0",
+    "prettier": "^2.4.1",
     "prop-types": "15.7.2",
     "react": "17.0.2",
     "react-datetime": "3.0.4",
@@ -29,8 +30,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react": "7.23.2",
     "gulp": "4.0.2",
-    "gulp-append-prepend": "1.0.9",
-    "prettier": "2.3.0"
+    "gulp-append-prepend": "1.0.9"
   },
   "optionalDependencies": {
     "typescript": "4.2.4"
