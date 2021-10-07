@@ -8,7 +8,9 @@ import "assets/scss/material-kit-react.scss?v=1.10.0";
 import { AppProvider } from "components/ContextApi/context";
 import App from "components/App/App";
 
-var hist = createBrowserHistory();
+var hist = createBrowserHistory({
+  basename: "/new",
+});
 
 ReactDOM.render(
   <AppProvider>
