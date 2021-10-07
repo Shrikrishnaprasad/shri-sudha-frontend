@@ -16,7 +16,7 @@ import MenuIcon from "@mui/icons-material/MenuOutlined";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import ListItemButton from "@mui/material/ListItemButton";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import "./AdminMain.scss";
 import Support from "./SupportPage/Support";
 import Report from "./ReportPage/Report";
@@ -26,6 +26,7 @@ import Admin from "./Admin/Admin";
 const drawerWidth = 240;
 
 function AdminMain(props) {
+  const history = useHistory();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { url, path } = useRouteMatch();
@@ -35,8 +36,10 @@ function AdminMain(props) {
 
   const drawer = (
     <div>
-      <Toolbar>
-        <h4>Shri Sudha</h4>
+      <Toolbar onClick={() => history.push("/")} style={{ cursor: "pointer" }}>
+        <h4 style={{ color: "gray" }}>
+          <b>Shri Sudha</b>
+        </h4>
       </Toolbar>
       <Divider />
       <List>
@@ -147,8 +150,8 @@ function AdminMain(props) {
       <Box className="admin-right-pane" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
         <Route exact path={`${path}/`} component={Admin} />
-        <Route path={`${path}/support`} component={Support} />
-        <Route path={`${path}/report`} component={Report} />
+        <Route exact path={`${path}/support`} component={Support} />
+        <Route exact path={`${path}/report`} component={Report} />
       </Box>
     </Box>
   );

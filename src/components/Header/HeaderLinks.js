@@ -24,10 +24,11 @@ export default function HeaderLinks(props) {
   const { user, setUser, initialStateUser } = useGlobalContext();
 
   const handleLoginLogout = () => {
-    if (user.isAdmin) {
+    if (user?.isAdmin || user?.userId) {
       setUser(initialStateUser);
       history.push("/");
-    } else {
+    } else if (!user?.isAdmin && !user?.userId) {
+      setUser(initialStateUser);
       history.push("/login");
     }
   };
@@ -38,7 +39,7 @@ export default function HeaderLinks(props) {
           color="transparent"
           className={classes.navLink}
           onClick={() => {
-            user.isAdmin
+            user?.isAdmin || user?.userId
               ? history.push("/dashboard")
               : alert("Please Login to use");
           }}
@@ -88,7 +89,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           onClick={handleLoginLogout}
         >
-          {user.isAdmin ? "Logout" : "Login"}
+          {user?.userId ? "Logout" : "Login"}
         </Button>
       </ListItem>
     </List>

@@ -42,6 +42,9 @@ export default function LoginPage(props) {
     if (userId === "admin" && password === "123") {
       setUser({ ...user, userId, isAdmin: true });
       history.push("/dashboard");
+    } else if (userId === "user" && password === "123") {
+      setUser({ ...user, userId, isAdmin: false });
+      history.push("/dashboard");
     } else {
       alert("User Id is invalid");
     }

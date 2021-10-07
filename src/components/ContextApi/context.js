@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const AppContext = createContext();
 //const initialState = {};
-const initialStateUser = { isAdmin: false };
+const initialStateUser = { userId: "", isAdmin: false };
 const URL = "/new";
 const AppProvider = ({ children }) => {
   const [user, setUser] = useState(initialStateUser);
