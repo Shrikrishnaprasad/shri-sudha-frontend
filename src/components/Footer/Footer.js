@@ -37,6 +37,11 @@ export default function Footer(props) {
               </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
+              <Link to="/founder" className={classes.block}>
+                Founder
+              </Link>
+            </ListItem>
+            <ListItem className={classes.inlineBlock}>
               <Link to="/subscribe" className={classes.block}>
                 Subscribe
               </Link>
@@ -54,9 +59,10 @@ export default function Footer(props) {
           </List>
         </div>
         <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} , Created by{" "}
+          &copy; {1900 + new Date().getYear()}, Created by{" "}
           <Link to="/" className={aClasses}>
-            K r ! s H
+            {/* K r ! s H */}
+            Shri Sudha Team
           </Link>{" "}
         </div>
       </div>

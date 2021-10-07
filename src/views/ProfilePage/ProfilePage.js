@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import RoomIcon from "@material-ui/icons/Room";
 import LocalPhoneIcon from "@material-ui/icons/LocalPhone";
 import EmailIcon from "@material-ui/icons/Email";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 
 // core components
 import Header from "components/Header/Header.js";
@@ -87,6 +88,14 @@ export default function ProfilePage(props) {
                       <br />
                       <li style={{ display: "flex" }}>
                         <LocalPhoneIcon />
+                        <span style={{ marginLeft: "16px" }}>
+                          <a href="tel:+91 9245442122">+91 92454 42122</a>
+                        </span>
+                      </li>
+                      <br />
+                      <br />
+                      <li style={{ display: "flex" }}>
+                        <WhatsAppIcon />
                         <span style={{ marginLeft: "16px" }}>
                           <a href="tel:+91 86674 39077">+91 86674 39077</a>
                         </span>

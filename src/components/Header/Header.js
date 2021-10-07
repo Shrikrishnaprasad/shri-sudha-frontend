@@ -66,7 +66,8 @@ export default function Header(props) {
     <Button
       className={classes.title}
       onClick={() => history.push("/")}
-      style={{ fontWeight: 400 }}
+      style={{ fontWeight: 400, border: "1px solid white" }}
+      variant="outlined"
     >
       {brand}
     </Button>

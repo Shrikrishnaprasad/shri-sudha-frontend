@@ -4,24 +4,26 @@ import classNames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
-import bg from "../../assets/img/bg.jpg";
 // core components
 import Header from "components/Header/Header.js";
 import Footer from "components/Footer/Footer.js";
-// delete - import Button from "components/CustomButtons/Button.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 
-import styles from "assets/jss/material-kit-react/views/landingPage.js";
-import RegisterTabs from "./Sections/RegisterTabs";
-
-// Sections for this page
+import styles from "assets/jss/material-kit-react/views/profilePage.js";
+import bg from "../../assets/img/bg.jpg";
+import FounderSection from "./FounderSection";
 
 const useStyles = makeStyles(styles);
 
-export default function RegisterPage(props) {
+export default function FounderPage(props) {
   const classes = useStyles();
+  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  setTimeout(function () {
+    setCardAnimation("");
+  }, 700);
   const { ...rest } = props;
+
   return (
     <div>
       <Header
@@ -35,14 +37,11 @@ export default function RegisterPage(props) {
         }}
         {...rest}
       />
-      <Parallax small filter image={bg}>
-        {/* image="https://i.ytimg.com/vi/9dy3TA2UQTA/maxresdefault.jpg" */}
-        <div className={classes.container}></div>
-      </Parallax>
-      <div className={classNames(classes.main, classes.mainRaised)}>
-        <div className={classes.container}>
-          <RegisterTabs />
-        </div>
+      <Parallax small filter image={bg} />
+      <div
+        className={classNames(classes.main, classes.mainRaised, cardAnimaton)}
+      >
+        <FounderSection />
       </div>
       <Footer />
     </div>
