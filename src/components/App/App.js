@@ -10,8 +10,10 @@ import SubscribePage from "views/SubscribePage/SubscribePage";
 import FounderPage from "views/FounderPage/FounderPage";
 import DashboardPage from "views/DashboardPage/DashboardPage";
 import AdminMain from "views/AdminPage/AdminMain";
+//import { useGlobalContext } from "components/ContextApi/context";
 
 const App = () => {
+  //const {URL} = useGlobalContext()
   return (
     <Switch>
       <Route exact path="/" component={LandingPage} />
@@ -21,7 +23,7 @@ const App = () => {
       <Route exact path="/subscribe" component={SubscribePage} />
       <Route exact path="/founder" component={FounderPage} />
       <Route exact path="/dashboard" component={DashboardPage} />
-      <Route path="/admin" component={AdminMain} />
+      <Route exact path="/admin" component={AdminMain} />
     </Switch>
   );
 };
