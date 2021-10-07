@@ -11,8 +11,11 @@ import ProfilePage from "views/ProfilePage/ProfilePage.js";
 import LoginPage from "views/LoginPage/LoginPage.js";
 import RegisterPage from "views/RegisterPage/RegisterPage";
 import SubscribePage from "views/SubscribePage/SubscribePage";
+import AdminMain from "views/AdminPage/AdminMain";
 
-var hist = createBrowserHistory();
+var hist = createBrowserHistory({
+  basename: "/new",
+});
 
 ReactDOM.render(
   <Router history={hist}>
@@ -22,6 +25,7 @@ ReactDOM.render(
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/subscribe" component={SubscribePage} />
+      <Route path="/admin" component={AdminMain} />
     </Switch>
   </Router>,
   document.getElementById("root")

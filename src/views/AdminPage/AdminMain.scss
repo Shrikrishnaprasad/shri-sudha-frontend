@@ -1,0 +1,60 @@
+/* .MuiListItemButton-root:hover {
+    background-color: rgba(239, 220, 242, 1) !important;
+    color: black !important;
+}  */
+
+$base-color: #9c27b0;
+$base-color-light: rgba(239, 220, 242, 1);
+
+body{
+	overflow: auto !important;
+	padding-right: 0 !important;
+}
+
+.Mui-selected {
+	background-color: $base-color !important;
+	color: white !important;
+	border-radius: 5px !important;
+}
+
+.admin-right-pane {
+	background-color: $base-color-light;
+	min-height: 100vh;
+	height: 100%;
+}
+
+.admin-table-container {
+	border-radius: 12px !important;
+	overflow-x: scroll;
+}
+
+.MuiTableHead-root{
+	background-color:$base-color;
+	white-space: nowrap;
+	padding: 30px;
+	.MuiTableCell-root{
+		color: white !important;
+		font-size: 14px;
+		padding: 20px;
+	}
+}
+
+.MuiTableSortLabel-icon{
+	color: white !important;
+}
+
+.MuiTablePagination-root{
+	background-color: white;
+    text-align: center;
+    border-radius: 20px;
+    margin: 20px 0;
+    width: fit-content;
+    box-shadow: 3px 4px 4px -5px black;
+	float: right;
+	p.MuiTablePagination-selectLabel,p.MuiTablePagination-displayedRows{
+		margin: 3px !important;
+		font-weight: 500;
+	}
+}
+
+
