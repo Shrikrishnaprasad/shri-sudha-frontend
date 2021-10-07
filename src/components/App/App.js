@@ -9,6 +9,7 @@ import RegisterPage from "views/RegisterPage/RegisterPage";
 import SubscribePage from "views/SubscribePage/SubscribePage";
 import FounderPage from "views/FounderPage/FounderPage";
 import DashboardPage from "views/DashboardPage/DashboardPage";
+import AdminMain from "views/AdminPage/AdminMain";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Route exact path="/subscribe" component={SubscribePage} />
       <Route exact path="/founder" component={FounderPage} />
       <Route exact path="/dashboard" component={DashboardPage} />
+      <Route path="/admin" component={AdminMain} />
     </Switch>
   );
 };
