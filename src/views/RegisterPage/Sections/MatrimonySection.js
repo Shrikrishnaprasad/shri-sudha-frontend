@@ -51,7 +51,6 @@ export default function MatrimonySection() {
                 <CustomInput
                   type=""
                   labelText="Father`s Name"
-                  id="name"
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -79,7 +78,6 @@ export default function MatrimonySection() {
                 <CustomInput
                   type=""
                   labelText="Nakshatra (Birth star)"
-                  id="name"
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -159,7 +157,6 @@ export default function MatrimonySection() {
                 <CustomInput
                   type=""
                   labelText="Job Role"
-                  id="name"
                   formControlProps={{
                     fullWidth: true,
                   }}
