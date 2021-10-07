@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -21,16 +21,31 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg7.jpg";
+import { useGlobalContext } from "components/ContextApi/context";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
-  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const history = useHistory();
+  const { user, setUser } = useGlobalContext();
+  const [cardAnimaton, setCardAnimation] = useState("cardHidden");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+  const checkLogin = (e) => {
+    e.preventDefault();
+    if (userId === "admin" && password === "123") {
+      setUser({ ...user, userId, isAdmin: true });
+      history.push("/dashboard");
+    } else {
+      alert("User Id is invalid");
+    }
+  };
   return (
     <div>
       <Header
@@ -52,19 +67,20 @@ export default function LoginPage(props) {
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={checkLogin}>
                   <CardHeader color="primary" className={classes.cardHeader}>
                     <h6 style={{ fontSize: "22px" }}>Login</h6>
                   </CardHeader>
                   <CardBody>
                     <CustomInput
-                      labelText="Email..."
-                      id="email"
+                      required
+                      labelText="User Id"
                       formControlProps={{
                         fullWidth: true,
                       }}
                       inputProps={{
-                        type: "email",
+                        type: "text",
+                        onChange: (e) => setUserId(e.target.value),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Email className={classes.inputIconsColor} />
@@ -73,13 +89,14 @@ export default function LoginPage(props) {
                       }}
                     />
                     <CustomInput
+                      required
                       labelText="Password"
-                      id="pass"
                       formControlProps={{
                         fullWidth: true,
                       }}
                       inputProps={{
                         type: "password",
+                        onChange: (e) => setPassword(e.target.value),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -92,7 +109,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button simple color="primary" size="lg" type="submit">
                       Login
                     </Button>
                   </CardFooter>

@@ -8,6 +8,7 @@ import LoginPage from "views/LoginPage/LoginPage.js";
 import RegisterPage from "views/RegisterPage/RegisterPage";
 import SubscribePage from "views/SubscribePage/SubscribePage";
 import FounderPage from "views/FounderPage/FounderPage";
+import DashboardPage from "views/DashboardPage/DashboardPage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/subscribe" component={SubscribePage} />
       <Route exact path="/founder" component={FounderPage} />
+      <Route exact path="/dashboard" component={DashboardPage} />
     </Switch>
   );
 };

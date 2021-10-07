@@ -14,14 +14,38 @@ import ListItem from "@material-ui/core/ListItem";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/components/headerLinksStyle.js";
+import { useGlobalContext } from "components/ContextApi/context";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
   const classes = useStyles();
   const history = useHistory();
+  const { user, setUser, initialStateUser } = useGlobalContext();
+
+  const handleLoginLogout = () => {
+    if (user.isAdmin) {
+      setUser(initialStateUser);
+      history.push("/");
+    } else {
+      history.push("/login");
+    }
+  };
   return (
     <List className={classes.list}>
+      <ListItem className={classes.listItem}>
+        <Button
+          color="transparent"
+          className={classes.navLink}
+          onClick={() => {
+            user.isAdmin
+              ? history.push("/dashboard")
+              : alert("Please Login to use");
+          }}
+        >
+          Dashboard
+        </Button>
+      </ListItem>
       <ListItem className={classes.listItem}>
         <Button
           color="transparent"
@@ -62,9 +86,9 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/login")}
+          onClick={handleLoginLogout}
         >
-          Login
+          {user.isAdmin ? "Logout" : "Login"}
         </Button>
       </ListItem>
     </List>
