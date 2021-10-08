@@ -28,7 +28,7 @@ const App = () => {
 
       <Route exact path="/dashboard" component={DashboardPage} />
 
-      <Route exact path="/admin" component={AdminMain} />
+      <Route path="/admin" component={AdminMain} />
       {/* admin routes */}
       {/* <Route exact path="/admin" component={AdminMain} />
       <Route exact path="/admin/support" component={Support} />
