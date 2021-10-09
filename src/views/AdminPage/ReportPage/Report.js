@@ -180,7 +180,7 @@ const tableRowHeaders = [
         fieldName: 'mname'
     },
     {
-        name: 'Address Lin1',
+        name: 'Address Line1',
         fieldName: 'line1'
     },
     {
@@ -198,7 +198,6 @@ const tableRowHeaders = [
 ]
 
 export default function Report() {
-
     const [filter, setFilter] = useState('');
     const [selectAll, setSelectAll] = useState(false);
     const [filteredList, setFilteredList] = useState([]);
@@ -211,7 +210,8 @@ export default function Report() {
         noOfRecords: 5
     })
 
-    const [paginatedMembers, setPaginatedMembers] = useState(members);
+    const [allMembers, setAllMembers] = useState([]);
+    const [paginatedMembers, setPaginatedMembers] = useState(allMembers);
 
     const handlePageChange = (event, newPage) => {
         setPaginationInfo((prevState) => {
@@ -232,7 +232,7 @@ export default function Report() {
             selectedOrder: (prevState.selectedOrder == 'asc') ? 'desc' : 'asc'
         }));
         if (activeHeader != 'rno') {
-            paginatedMembers.sort((a, b) => {
+            allMembers.sort((a, b) => {
                 if (a[activeHeader] < b[activeHeader]) {
                     return tableSortLabel.selectedOrder == 'asc' ? 1 : -1;
                 }
@@ -242,7 +242,7 @@ export default function Report() {
                 return 0;
             })
         } else {
-            paginatedMembers.sort((a, b) => {
+            allMembers.sort((a, b) => {
                 if (parseInt(a[activeHeader]) < parseInt(b[activeHeader])) {
                     return tableSortLabel.selectedOrder == 'asc' ? 1 : -1;
                 }
@@ -261,7 +261,7 @@ export default function Report() {
     }
 
     const doPagination = () => {
-        let memberList = filteredList.length > 0 ? filteredList : members;
+        let memberList = filteredList.length > 0 ? filteredList : allMembers;
         let paginatedMembers = memberList.slice((paginationInfo.currentPage * paginationInfo.noOfRecords), (paginationInfo.currentPage * paginationInfo.noOfRecords) + paginationInfo.noOfRecords);
         setPaginatedMembers(paginatedMembers);
     }
@@ -270,10 +270,10 @@ export default function Report() {
         setFilter(event.target.value)
     }
 
-    const handleSelectAll = ()=>{
-        paginatedMembers.map((member)=> member.isSelected = !selectAll);
+    const handleSelectAll = () => {
+        allMembers.map((member) => member.isSelected = !selectAll);
         setSelectAll(!selectAll);
-        setPaginatedMembers([...paginatedMembers])
+        setAllMembers([...allMembers])
     }
 
     const getFilteredData = () => {
@@ -295,6 +295,10 @@ export default function Report() {
     }
 
     useEffect(() => {
+        setAllMembers(members);
+    }, [])
+
+    useEffect(() => {
         setFilter('');
         setPaginationInfo({ currentPage: 0, noOfRecords: 5 })
         doPagination();
@@ -302,17 +306,13 @@ export default function Report() {
 
     useEffect(() => {
         doPagination();
-        setTableSortLabel({
-            selectedHeader: '',
-            selectedOrder: 'desc'
-        })
-    }, [paginationInfo.currentPage, paginationInfo.noOfRecords])
+    }, [paginationInfo.currentPage, paginationInfo.noOfRecords, tableSortLabel.selectedOrder, allMembers])
 
     return (
         <Box>
             <Grid container spacing={2} columns={16}>
-                <Grid item xs={8}>
-                    <Card sx={{ minWidth: 275, borderRadius: 3, padding: 1.5 }} className="admin-report-filter-container">
+                <Grid item xs={7}>
+                    <Card sx={{ borderRadius: 3, padding: 1.5 }} className="admin-report-filter-container">
                         <CardContent>
                             <Grid container spacing={2} columns={16}>
                                 <Grid item xs={12}><TextField label="Filter" color="secondary" fullWidth value={filter} onChange={handleFilterChange} /></Grid>
@@ -321,12 +321,12 @@ export default function Report() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={4}>
-                    <Card sx={{ minWidth: 275, borderRadius: 3 }}>
+                <Grid item xs={3}>
+                    <Card sx={{ borderRadius: 3, backgroundColor: 'mediumorchid', color: 'white' }}>
                         <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'700' }}>
                                 <div>
-                                    <h5>Total Active Members</h5>
+                                    <h5>Total Members</h5>
                                     <p>375</p>
                                 </div>
                                 <div className='admin-reports-user-icon'>
@@ -336,10 +336,25 @@ export default function Report() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={4}>
-                    <Card sx={{ minWidth: 275, borderRadius: 3 }}>
+                <Grid item xs={3}>
+                    <Card sx={{ borderRadius: 3, backgroundColor: 'rgb(30,136,229)', color:'white' }}>
                         <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'700' }}>
+                                <div>
+                                    <h5>New Members</h5>
+                                    <p>375</p>
+                                </div>
+                                <div className='admin-reports-user-icon'>
+                                    <AccountCircleIcon />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={3}>
+                    <Card sx={{ borderRadius: 3, backgroundColor: '#e01fc8b8', color: 'white' }}>
+                        <CardContent>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'700' }}>
                                 <div>
                                     <h5>Last file export</h5>
                                     <p>07/10/2021</p>
