@@ -22,9 +22,14 @@ export default function MatrimonySection() {
   const classes = useStyles();
   const [matrimonyDetails, setMatrimonyDetails] = useState({});
   const [isKannada, setIsKannada] = useState("kannada");
+  const [gender, setGender] = useState("male");
 
   const handleChange = (event) => {
     setIsKannada(event.target.value);
+  };
+
+  const handleChangeGender = (event) => {
+    setGender(event.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -44,6 +49,7 @@ export default function MatrimonySection() {
       residence,
     } = matrimonyDetails;
     if (
+      gender &&
       name &&
       date &&
       height &&
@@ -75,6 +81,28 @@ export default function MatrimonySection() {
               <GridItem xs={12} sm={12} md={12}>
                 <h6 className={classes.description}>Personal Details</h6>
               </GridItem>
+              <GridItem xs={12} sm={12} md={12} container justify="center">
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    row
+                    name="row-radio-buttons-group"
+                    value={gender}
+                    onChange={handleChangeGender}
+                  >
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio color="secondary" />}
+                      label="Vara"
+                    />
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio color="secondary" />}
+                      label="Vadhu"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </GridItem>
+
               <GridItem xs={12} sm={12} md={6}>
                 <TextField
                   label="Your Name"

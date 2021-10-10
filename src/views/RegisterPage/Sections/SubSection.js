@@ -7,11 +7,11 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
 import { useHistory } from "react-router";
+import { TextField } from "@mui/material";
 
 const useStyles = makeStyles(styles);
 
@@ -58,147 +58,134 @@ export default function SubSection() {
           <form onSubmit={handleSubmit}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Your Name"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.userName || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        userName: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Your Name"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.userName || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      userName: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
+                <TextField
                   type="number"
-                  labelText="Mobile Number"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber.mobile || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        mobile: e.target.value,
-                      }),
-                  }}
+                  label="Mobile Number"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.mobile || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      mobile: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
+                <TextField
                   type="email"
-                  labelText="Email address"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.email || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        email: e.target.value,
-                      }),
-                  }}
+                  label="Email address"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.email || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      email: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Address Line 1"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.address1 || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        address1: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Address Line 1"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.address1 || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      address1: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Address Line 2"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.address2 || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        address2: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Address Line 2"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.address2 || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      address2: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="City"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.city || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        city: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="City"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.city || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      city: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type=""
-                  labelText="State"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.state || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        state: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="State"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.state || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      state: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
+                <TextField
                   type="number"
-                  labelText="Pin Code"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: newSubscriber?.pincode || "",
-                    onChange: (e) =>
-                      setNewSubscriber({
-                        ...newSubscriber,
-                        pincode: e.target.value,
-                      }),
-                  }}
+                  label="Pin Code"
+                  color="secondary"
+                  fullWidth
+                  value={newSubscriber?.pincode || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setNewSubscriber({
+                      ...newSubscriber,
+                      pincode: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
 
