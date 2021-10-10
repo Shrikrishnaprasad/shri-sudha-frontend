@@ -7,52 +7,56 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
+import { TextField } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
 const useStyles = makeStyles(styles);
 
 export default function MatrimonySection() {
   const classes = useStyles();
   const [matrimonyDetails, setMatrimonyDetails] = useState({});
+  const [isKannada, setIsKannada] = useState("kannada");
+
+  const handleChange = (event) => {
+    setIsKannada(event.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const {
-      userName,
-      mobile,
-      father,
-      /* mother, */
-      dob,
-      nakshatra,
-      gotra,
-      /* others,*/
-      address1,
-      address2,
-      city,
-      state,
-      pincode,
-      jobRole,
-      company,
+      name,
+      date,
+      height,
+      gothra,
+      star,
+      education,
+      profession,
       salary,
+      contactPerson,
+      contactPersonNum,
+      altNum,
+      residence,
     } = matrimonyDetails;
     if (
-      userName &&
-      mobile &&
-      father &&
-      dob &&
-      nakshatra &&
-      gotra &&
-      address1 &&
-      address2 &&
-      city &&
-      state &&
-      pincode &&
-      jobRole &&
-      company &&
-      salary
+      name &&
+      date &&
+      height &&
+      gothra &&
+      star &&
+      isKannada &&
+      education &&
+      profession &&
+      salary &&
+      contactPerson &&
+      contactPersonNum &&
+      altNum &&
+      residence
     ) {
       alert("Thank you for your Registration !");
       setMatrimonyDetails({});
@@ -72,298 +76,222 @@ export default function MatrimonySection() {
                 <h6 className={classes.description}>Personal Details</h6>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Your Name"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.name || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        name: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Your Name"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.name || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      name: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type="number"
-                  labelText="Mobile Number"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.mobile || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        mobile: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Father`s Name"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.father || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        father: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Mother`s Name"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    value: matrimonyDetails?.mother || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        mother: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
+
               <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
+                <TextField
                   type="date"
-                  labelText=""
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.dob || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        dob: e.target.value,
-                      }),
-                  }}
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.date || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      date: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type=""
-                  labelText="Nakshatra (Birth star)"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.nakshatra || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        nakshatra: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Height"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.height || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      height: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type=""
-                  labelText="Gotra"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.gotra || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        gotra: e.target.value,
-                      }),
-                  }}
+              <GridItem xs={6} sm={6} md={4}>
+                <TextField
+                  label="Gothra"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.gothra || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      gothra: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type=""
-                  labelText="Other details"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    value: matrimonyDetails?.others || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        others: e.target.value,
-                      }),
-                  }}
+              <GridItem xs={6} sm={6} md={4}>
+                <TextField
+                  label="Star (Nakshathra)"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.star || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      star: e.target.value,
+                    })
+                  }
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    row
+                    name="row-radio-buttons-group"
+                    value={isKannada}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel
+                      value="kannada"
+                      control={<Radio color="secondary" />}
+                      label="Madhwa Kannada"
+                    />
+                    <FormControlLabel
+                      value="desistha"
+                      control={<Radio color="secondary" />}
+                      label="Desistha"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </GridItem>
+
+              <GridItem xs={6} sm={6} md={4}>
+                <TextField
+                  label="Education"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.education || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      education: e.target.value,
+                    })
+                  }
+                />
+              </GridItem>
+              <GridItem xs={6} sm={6} md={4}>
+                <TextField
+                  label="Profession"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.profession || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      profession: e.target.value,
+                    })
+                  }
+                />
+              </GridItem>
+              <GridItem xs={6} sm={6} md={4}>
+                <TextField
+                  label="Salary"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.salary || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      salary: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
 
               <GridItem xs={12} sm={12} md={12}>
                 <br />
-                <h6 className={classes.description}>Address</h6>
+                <h6 className={classes.description}>Contact Details</h6>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Address Line 1"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.address1 || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        address1: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Contact Person Name"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.contactPerson || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      contactPerson: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="Address Line 2"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.address2 || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        address2: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Contact Person number"
+                  color="secondary"
+                  fullWidth
+                  value={matrimonyDetails?.contactPersonNum || ""}
+                  required
+                  margin="dense"
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      contactPersonNum: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  type=""
-                  labelText="City"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.city || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        city: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type=""
-                  labelText="State"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.state || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        state: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type="number"
-                  labelText="Pin Code"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.pincode || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        pincode: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Alternate number (optional)"
+                  color="secondary"
+                  fullWidth
+                  margin="dense"
+                  value={matrimonyDetails?.altNum || ""}
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      altNum: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
-                <br />
-                <h6 className={classes.description}>Job details</h6>
-              </GridItem>
-              <GridItem xs={6} sm={6} md={4}>
-                <CustomInput
-                  type=""
-                  labelText="Job Role"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.jobRole || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        jobRole: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={6} sm={6} md={5}>
-                <CustomInput
-                  type=""
-                  labelText="Company details, Place"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.company || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        company: e.target.value,
-                      }),
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={6} sm={6} md={3}>
-                <CustomInput
-                  type=""
-                  labelText="Salary"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                  inputProps={{
-                    required: true,
-                    value: matrimonyDetails?.salary || "",
-                    onChange: (e) =>
-                      setMatrimonyDetails({
-                        ...matrimonyDetails,
-                        salary: e.target.value,
-                      }),
-                  }}
+                <TextField
+                  label="Place of residence"
+                  color="secondary"
+                  fullWidth
+                  required
+                  margin="dense"
+                  value={matrimonyDetails?.residence || ""}
+                  onChange={(e) =>
+                    setMatrimonyDetails({
+                      ...matrimonyDetails,
+                      residence: e.target.value,
+                    })
+                  }
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
