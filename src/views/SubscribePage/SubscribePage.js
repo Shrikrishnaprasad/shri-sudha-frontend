@@ -73,23 +73,31 @@ export default function SubscribePage(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
                 <CardBody>
-                  <ul
-                    style={{ fontWeight: 600, fontSize: "24px", color: "gray" }}
+                  <div
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontSize: "24px",
+                      color: "gray",
+                    }}
                   >
-                    <li>
-                      {" "}
+                    <h3>Subscription plan</h3>
+                    <br />
+                    <p>
+                      @ Rs.{" "}
                       <span
                         style={{
-                          fontSize: "26px",
-                          color: "purple",
+                          fontSize: "40px",
+                          color: "green",
                         }}
                       >
-                        1
+                        {" "}
+                        150{" "}
                       </span>{" "}
-                      Year Subscription
-                    </li>
-                    <br />
-                    <li>
+                      /- only
+                    </p>
+                    <hr style={{ margin: "20px 0" }} />
+                    <p>
                       <span
                         style={{
                           fontSize: "26px",
@@ -98,26 +106,31 @@ export default function SubscribePage(props) {
                       >
                         12
                       </span>{" "}
-                      - Books
-                    </li>
-                    <br />
-                    <li>
-                      @{" "}
+                      Books
+                    </p>
+                    <hr style={{ margin: "20px 0" }} />
+                    <p>
                       <span
                         style={{
                           fontSize: "26px",
-                          color: "green",
+                          color: "purple",
                         }}
                       >
-                        {" "}
-                        Rs. 150{" "}
+                        1
                       </span>{" "}
-                      /- only
-                    </li>
-                  </ul>
+                      Year
+                    </p>
+                  </div>
+                  <hr style={{ margin: "20px 0" }} />
                 </CardBody>
+
                 <CardFooter className={classes.cardFooter}>
-                  <Button onClick={openPayModal150} color="primary" size="lg">
+                  <Button
+                    onClick={openPayModal150}
+                    color="primary"
+                    round
+                    size="lg"
+                  >
                     Subscribe
                   </Button>
                 </CardFooter>
@@ -126,23 +139,31 @@ export default function SubscribePage(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
                 <CardBody>
-                  <ul
-                    style={{ fontWeight: 600, fontSize: "24px", color: "gray" }}
+                  <div
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontSize: "24px",
+                      color: "gray",
+                    }}
                   >
-                    <li>
-                      {" "}
+                    <h3>Subscription plan</h3>
+                    <br />
+                    <p>
+                      @ Rs.{" "}
                       <span
                         style={{
-                          fontSize: "26px",
-                          color: "purple",
+                          fontSize: "40px",
+                          color: "green",
                         }}
                       >
-                        2
+                        {" "}
+                        300{" "}
                       </span>{" "}
-                      Year Subscription
-                    </li>
-                    <br />
-                    <li>
+                      /- only
+                    </p>
+                    <hr style={{ margin: "20px 0" }} />
+                    <p>
                       <span
                         style={{
                           fontSize: "26px",
@@ -151,26 +172,30 @@ export default function SubscribePage(props) {
                       >
                         24
                       </span>{" "}
-                      - Books
-                    </li>
-                    <br />
-                    <li>
-                      @{" "}
+                      Books
+                    </p>
+                    <hr style={{ margin: "20px 0" }} />
+                    <p>
                       <span
                         style={{
                           fontSize: "26px",
-                          color: "green",
+                          color: "purple",
                         }}
                       >
-                        {" "}
-                        Rs. 300{" "}
+                        2
                       </span>{" "}
-                      /- only
-                    </li>
-                  </ul>
+                      Years
+                    </p>
+                  </div>
+                  <hr style={{ margin: "20px 0" }} />
                 </CardBody>
                 <CardFooter className={classes.cardFooter}>
-                  <Button onClick={openPayModal300} color="primary" size="lg">
+                  <Button
+                    onClick={openPayModal300}
+                    color="primary"
+                    round
+                    size="lg"
+                  >
                     Subscribe
                   </Button>
                 </CardFooter>

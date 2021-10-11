@@ -18,6 +18,7 @@ import { useGlobalContext } from "components/ContextApi/context";
 
 const useStyles = makeStyles(styles);
 import { useHistory } from "react-router";
+import DashboardSection from "./DashboardSection";
 
 export default function DashboardPage(props) {
   const history = useHistory();
@@ -49,7 +50,8 @@ export default function DashboardPage(props) {
         <div>
           <div className={classes.container}>
             <GridContainer justify="center">
-              <h2>User dashboard</h2>
+              <h3 className={classes.title}>USER DASHBOARD</h3>
+              <DashboardSection />
             </GridContainer>
           </div>
         </div>
