@@ -9,8 +9,10 @@ import RegisterPage from "views/RegisterPage/RegisterPage";
 import SubscribePage from "views/SubscribePage/SubscribePage";
 import FounderPage from "views/FounderPage/FounderPage";
 import DashboardPage from "views/DashboardPage/DashboardPage";
+import GalleryPage from "views/GalleryPage/GalleryPage";
 
 import AdminMain from "views/AdminPage/AdminMain";
+
 // import Support from "views/AdminPage/SupportPage/Support";
 // import Report from "views/AdminPage/ReportPage/Report";
 //import { useGlobalContext } from "components/ContextApi/context";
@@ -25,7 +27,7 @@ const App = () => {
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/subscribe" component={SubscribePage} />
       <Route exact path="/founder" component={FounderPage} />
-
+      <Route exact path="/gallery" component={GalleryPage} />
       <Route exact path="/dashboard" component={DashboardPage} />
 
       <Route path="/admin" component={AdminMain} />

@@ -42,6 +42,11 @@ export default function Footer(props) {
               </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
+              <Link to="/gallery" className={classes.block}>
+                Gallery
+              </Link>
+            </ListItem>
+            <ListItem className={classes.inlineBlock}>
               <Link to="/subscribe" className={classes.block}>
                 Subscribe
               </Link>
