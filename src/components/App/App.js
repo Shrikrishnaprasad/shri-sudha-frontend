@@ -12,9 +12,8 @@ import DashboardPage from "views/DashboardPage/DashboardPage";
 import GalleryPage from "views/GalleryPage/GalleryPage";
 
 import AdminMain from "views/AdminPage/AdminMain";
+import MatrimonyPage from "views/MatrimonyPage/MatrimonyPage";
 
-// import Support from "views/AdminPage/SupportPage/Support";
-// import Report from "views/AdminPage/ReportPage/Report";
 //import { useGlobalContext } from "components/ContextApi/context";
 
 const App = () => {
@@ -27,14 +26,14 @@ const App = () => {
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/subscribe" component={SubscribePage} />
       <Route exact path="/founder" component={FounderPage} />
+      <Route exact path="/matrimony" component={MatrimonyPage} />
       <Route exact path="/gallery" component={GalleryPage} />
+
+      {/* dashboard */}
       <Route exact path="/dashboard" component={DashboardPage} />
 
+      {/* admin route */}
       <Route path="/admin" component={AdminMain} />
-      {/* admin routes */}
-      {/* <Route exact path="/admin" component={AdminMain} />
-      <Route exact path="/admin/support" component={Support} />
-      <Route exact path="/admin/report" component={Report} /> */}
     </Switch>
   );
 };

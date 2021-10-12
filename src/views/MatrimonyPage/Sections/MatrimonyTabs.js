@@ -8,12 +8,12 @@ import NavPills from "components/NavPills/NavPills.js";
 import GridContainer from "components/Grid/GridContainer.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
-import SubSection from "./SubSection";
-import { PersonAdd } from "@material-ui/icons";
+import MatrimonySection from "./MatrimonySection";
+import { Assignment } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
-export default function RegisterTabs() {
+export default function MatrimonyTabs() {
   const classes = useStyles();
   return (
     <div className={classes.section}>
@@ -23,9 +23,9 @@ export default function RegisterTabs() {
           color="primary"
           tabs={[
             {
-              tabIcon: PersonAdd,
-              tabButton: "New Subscriber",
-              tabContent: <SubSection />,
+              tabIcon: Assignment,
+              tabButton: "Matrimony Details",
+              tabContent: <MatrimonySection />,
             },
           ]}
         />

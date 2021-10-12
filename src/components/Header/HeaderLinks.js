@@ -87,6 +87,15 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
+          onClick={() => history.push("/matrimony")}
+        >
+          Matrimony
+        </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Button
+          color="transparent"
+          className={classes.navLink}
           onClick={() => history.push("/register")}
         >
           Register

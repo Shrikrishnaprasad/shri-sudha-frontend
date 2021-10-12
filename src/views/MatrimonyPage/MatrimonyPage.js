@@ -13,13 +13,13 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import Parallax from "components/Parallax/Parallax.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
-import RegisterTabs from "./Sections/RegisterTabs";
+import MatrimonyTabs from "./Sections/MatrimonyTabs";
 
 // Sections for this page
 
 const useStyles = makeStyles(styles);
 
-export default function RegisterPage(props) {
+export default function MatrimonyPage(props) {
   const classes = useStyles();
   const { ...rest } = props;
   return (
@@ -40,7 +40,7 @@ export default function RegisterPage(props) {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <RegisterTabs />
+          <MatrimonyTabs />
         </div>
       </div>
       <Footer />
