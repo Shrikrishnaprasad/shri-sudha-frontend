@@ -6,6 +6,7 @@ import Cloud from "@material-ui/icons/Cloud";
 import Tabs from "components/CustomTabs/CustomTabs.js";
 import { Receipt } from "@material-ui/icons";
 import SubTab from "./Tabs/SubTab";
+import pdf from "./shrisudha.pdf";
 
 export default function DashboardSection() {
   return (
@@ -18,14 +19,31 @@ export default function DashboardSection() {
           tabContent: <SubTab />,
         },
         {
-          tabName: "Receipt",
+          tabName: "PDF",
           tabIcon: Receipt,
-          tabContent: <h3>receipt</h3>,
+          tabContent: (
+            <>
+              <object
+                data={pdf + "?#zoom=320"}
+                type="application/pdf"
+                width="100%"
+                height="100%"
+                style={{ minHeight: "720px" }}
+              >
+                <p>
+                  Shri Sudha pdf -{" "}
+                  <a href="https://drive.google.com/file/d/1PLqzTF38zvu17vdw7vHveBzvvACz8a47/view?usp=sharing">
+                    Click here to view!
+                  </a>
+                </p>
+              </object>
+            </>
+          ),
         },
         {
-          tabName: "Other title",
+          tabName: "Receipt",
           tabIcon: Cloud,
-          tabContent: <h1>Other content</h1>,
+          tabContent: <h1>receipt</h1>,
         },
       ]}
     />
