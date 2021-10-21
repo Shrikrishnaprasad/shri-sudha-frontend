@@ -62,7 +62,7 @@ function AdminMain(props) {
             <ListItemIcon>
               <SupportAgentIcon />
             </ListItemIcon>
-            <ListItemText primary="Support" />
+            <ListItemText primary="Matrimony" />
           </ListItemButton>
         </Link>
         <Link to={`${url}/report`}>

@@ -68,4 +68,18 @@ body{
 	height: 100%;
 }
 
+.admin-main-collapse{
+	padding: 0 100px !important;
+	background-color: #fee3f587;
+	.MuiTextField-root, .MuiFormControl-root{
+		background-color: white !important;
+	}
+}
 
+.admin-main-collapse-header{
+	text-align: center;
+	background-color: #dc9bda;
+	color: white;
+	font-weight: 700;
+	margin-bottom: 40px;
+}
