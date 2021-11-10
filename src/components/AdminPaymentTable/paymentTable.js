@@ -6,45 +6,48 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+import { useState, useEffect } from 'react';
 
 export default function PaymentTable() {
+
+  const [paymentList, setPaymentList] = useState([]);
+
+  useEffect(()=>{
+    let initialPaymentList = [{"suid": "1001", "rno": "3001", "exdate": "2014-09-30 00:00:00", "pdate": "2014-09-30 00:00:00", "amt": 150, "ptype": "Net Banking", "bankname": "HDFC", "tid": "624818403673"}]
+    setPaymentList(initialPaymentList);
+  }, [])
+
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650 }} aria-label="payment details table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Sl.no</TableCell>
+            <TableCell align="center">Receipt No</TableCell>
+            <TableCell align="center">Receipt Date</TableCell>
+            <TableCell align="center">Due Date</TableCell>
+            <TableCell align="center">Mode</TableCell>
+            <TableCell align="center">Bank Name</TableCell>
+            <TableCell align="center">Transaction ID</TableCell>
+            <TableCell align="center">Amount Paid</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {paymentList.map((row, index) => (
             <TableRow
-              key={row.name}
+              key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {index+1}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="center">{row.suid}</TableCell>
+              <TableCell align="center">{row.pdate}</TableCell>
+              <TableCell align="center">{row.exdate}</TableCell>
+              <TableCell align="center">{row.ptype}</TableCell>
+              <TableCell align="center">{row.bankname}</TableCell>
+              <TableCell align="center">{row.tid}</TableCell>
+              <TableCell align="center">{row.amt}</TableCell>
             </TableRow>
           ))}
         </TableBody>
