@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React from "react";
 // react components for routing our app without refresh
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,7 +34,7 @@ export default function HeaderLinks(props) {
   };
   return (
     <List className={classes.list}>
-      <ListItem className={classes.listItem}>
+      { user?.userId ? (<ListItem className={classes.listItem}>
         <Button
           color="transparent"
           className={classes.navLink}
@@ -46,12 +46,14 @@ export default function HeaderLinks(props) {
         >
           Dashboard
         </Button>
-      </ListItem>
+      </ListItem>) : ''}
       <ListItem className={classes.listItem}>
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/founder")}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/founder"}  
         >
           Founder
         </Button>
@@ -60,7 +62,9 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/gallery")}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/gallery"} 
         >
           Gallery
         </Button>
@@ -69,7 +73,9 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/subscribe")}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/subscribe"} 
         >
           Subscribe
         </Button>
@@ -78,7 +84,9 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/contact")}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/contact"} 
         >
           Contact us
         </Button>
@@ -87,7 +95,9 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/matrimony")}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/matrimony"} 
         >
           Matrimony
         </Button>
@@ -96,7 +106,9 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => history.push("/register")}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/register"} 
         >
           Register
         </Button>
@@ -105,6 +117,7 @@ export default function HeaderLinks(props) {
         <Button
           color="transparent"
           className={classes.navLink}
+          activeClassName={classes.navLinkActive}
           onClick={handleLoginLogout}
         >
           {user?.userId ? "Logout" : "Login"}

@@ -105,7 +105,7 @@ const headerStyle = {
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)",
   },
   transparent: {
-    backgroundColor: "transparent !important",
+    backgroundColor: "rgba(15,15,30,0.25)",
     boxShadow: "none",
     paddingTop: "25px",
     color: "#FFFFFF",
@@ -124,6 +124,12 @@ const headerStyle = {
     backgroundColor: "#fff !important",
     boxShadow:
       "0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15)",
+    "& a.makeStyles-navLinkActive-57":{
+      backgroundColor: "#9c27b0",
+      "& span":{
+        color: "white"
+      }
+    }
   },
   drawerPaper: {
     border: "none",

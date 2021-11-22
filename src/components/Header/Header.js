@@ -73,7 +73,7 @@ export default function Header(props) {
     </Button>
   );
   return (
-    <AppBar className={appBarClasses}>
+    <AppBar className={appBarClasses} style={{backdropFilter: "blur(3px)"}}>
       <Toolbar className={classes.container}>
         {leftLinks !== undefined ? brandComponent : null}
         <div className={classes.flex}>

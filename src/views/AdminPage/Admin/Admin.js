@@ -14,7 +14,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import PaymentTable from '../../../components/AdminPaymentTable/paymentTable'
 import '../AdminMain.scss';
+import { styled } from '@mui/material/styles';
 import AdminRow from 'components/AdminRow/AdminRow';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const tableRowHeaders = [
   {
@@ -46,6 +48,10 @@ const tableRowHeaders = [
     fieldName: 'actions'
   }
 ]
+
+const Input = styled('input')({
+  display: 'none',
+});
 
 export default function Admin() {
 
@@ -89,6 +95,13 @@ export default function Admin() {
   }, [])
 
   return (
+    <div>
+     <label htmlFor="contained-button-file" style={{marginBottom: "20px", display: "block", textAlign: "end"}}>
+        <Input accept="image/*" id="contained-button-file" multiple type="file" />
+        <Button variant="contained" color="secondary" component="span" startIcon={<UploadFileIcon/>}>
+          Upload E-book
+        </Button>
+      </label>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead className="admin-table-header">
@@ -133,5 +146,6 @@ export default function Admin() {
         </DialogActions>
       </Dialog>
     </TableContainer>
+    </div>
   );
 }
