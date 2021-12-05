@@ -31,7 +31,7 @@ export default function RegisterPage(props) {
         fixed
         changeColorOnScroll={{
           height: 200,
-          color: "white",
+          color: "primary",
         }}
         {...rest}
       />

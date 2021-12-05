@@ -120,7 +120,7 @@ export default function MatrimonySection() {
                 />
               </GridItem>
 
-              <GridItem xs={6} sm={6} md={3}>
+              <GridItem xs={6} sm={6} md={4}>
                 <TextField
                   type="date"
                   color="secondary"
@@ -136,7 +136,7 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={3}>
+              <GridItem xs={6} sm={6} md={2}>
                 <TextField
                   label="Height"
                   color="secondary"

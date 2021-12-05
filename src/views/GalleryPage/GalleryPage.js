@@ -49,7 +49,7 @@ export default function GalleryPage(props) {
         fixed
         changeColorOnScroll={{
           height: 200,
-          color: "white",
+          color: "primary",
         }}
         {...rest}
       />

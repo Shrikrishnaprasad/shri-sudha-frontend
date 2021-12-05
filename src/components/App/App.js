@@ -13,6 +13,7 @@ import GalleryPage from "views/GalleryPage/GalleryPage";
 
 import AdminMain from "views/AdminPage/AdminMain";
 import MatrimonyPage from "views/MatrimonyPage/MatrimonyPage";
+import Feedback from "views/Feedback/Feedback";
 
 //import { useGlobalContext } from "components/ContextApi/context";
 
@@ -28,6 +29,7 @@ const App = () => {
       <Route exact path="/founder" component={FounderPage} />
       <Route exact path="/matrimony" component={MatrimonyPage} />
       <Route exact path="/gallery" component={GalleryPage} />
+      <Route exact path="/feedback" component={Feedback} />
 
       {/* dashboard */}
       <Route exact path="/dashboard" component={DashboardPage} />

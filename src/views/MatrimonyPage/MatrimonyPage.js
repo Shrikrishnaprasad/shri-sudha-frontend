@@ -31,7 +31,7 @@ export default function MatrimonyPage(props) {
         fixed
         changeColorOnScroll={{
           height: 200,
-          color: "white",
+          color: "primary",
         }}
         {...rest}
       />

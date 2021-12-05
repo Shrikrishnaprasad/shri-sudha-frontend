@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useEffect, useState } from "react";
 // react components for routing our app without refresh
 import { NavLink, useHistory } from "react-router-dom";
 
@@ -22,7 +22,6 @@ export default function HeaderLinks(props) {
   const classes = useStyles();
   const history = useHistory();
   const { user, setUser, initialStateUser } = useGlobalContext();
-
   const handleLoginLogout = () => {
     if (user?.isAdmin || user?.userId) {
       setUser(initialStateUser);
@@ -34,26 +33,30 @@ export default function HeaderLinks(props) {
   };
   return (
     <List className={classes.list}>
-      { user?.userId ? (<ListItem className={classes.listItem}>
-        <Button
-          color="transparent"
-          className={classes.navLink}
-          onClick={() => {
-            user?.isAdmin || user?.userId
-              ? history.push("/dashboard")
-              : alert("Please Login to use");
-          }}
-        >
-          Dashboard
-        </Button>
-      </ListItem>) : ''}
+      {user?.userId ? (
+        <ListItem className={classes.listItem}>
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            onClick={() => {
+              user?.isAdmin || user?.userId
+                ? history.push("/dashboard")
+                : alert("Please Login to use");
+            }}
+          >
+            Dashboard
+          </Button>
+        </ListItem>
+      ) : (
+        ""
+      )}
       <ListItem className={classes.listItem}>
         <Button
           color="transparent"
           className={classes.navLink}
           activeClassName={classes.navLinkActive}
           component={NavLink}
-          to={"/founder"}  
+          to={"/founder"}
         >
           Founder
         </Button>
@@ -64,7 +67,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           activeClassName={classes.navLinkActive}
           component={NavLink}
-          to={"/gallery"} 
+          to={"/gallery"}
         >
           Gallery
         </Button>
@@ -75,7 +78,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           activeClassName={classes.navLinkActive}
           component={NavLink}
-          to={"/subscribe"} 
+          to={"/subscribe"}
         >
           Subscribe
         </Button>
@@ -86,7 +89,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           activeClassName={classes.navLinkActive}
           component={NavLink}
-          to={"/contact"} 
+          to={"/contact"}
         >
           Contact us
         </Button>
@@ -97,7 +100,7 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           activeClassName={classes.navLinkActive}
           component={NavLink}
-          to={"/matrimony"} 
+          to={"/matrimony"}
         >
           Matrimony
         </Button>
@@ -108,7 +111,18 @@ export default function HeaderLinks(props) {
           className={classes.navLink}
           activeClassName={classes.navLinkActive}
           component={NavLink}
-          to={"/register"} 
+          to={"/feedback"}
+        >
+          Feedback
+        </Button>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Button
+          color="transparent"
+          className={classes.navLink}
+          activeClassName={classes.navLinkActive}
+          component={NavLink}
+          to={"/register"}
         >
           Register
         </Button>

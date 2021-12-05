@@ -48,10 +48,14 @@ export default function SubscribePage(props) {
   return (
     <div>
       <Header
-        absolute
         color="transparent"
         brand="SHRI SUDHA"
         rightLinks={<HeaderLinks />}
+        fixed
+        changeColorOnScroll={{
+          height: 200,
+          color: "primary",
+        }}
         {...rest}
       />
       <div
