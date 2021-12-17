@@ -27,6 +27,9 @@ import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 //material icons
 import SaveIcon from '@mui/icons-material/Save';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -49,11 +52,15 @@ import html2canvas from 'html2canvas';
 import Receipt from 'components/Receipt/Receipt';
 
 //utilities
-import {formatDateWithMonthName, formatPaymentInfo} from '../../../utilities/HelperFunctions.js';
+import { formatDateWithMonthName, formatPaymentInfo } from '../../../utilities/HelperFunctions.js';
 
 const actions = [
   { icon: <MenuBookIcon fontSize="medium" />, name: 'Upload Book' }
 ];
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Admin() {
   const [collapseOpen, setCollapseOpen] = React.useState({ general: false, matrimony: false, payment: false });
@@ -64,6 +71,12 @@ export default function Admin() {
   const toggleCollapse = (collapseName) => {
     setCollapseOpen({ ...collapseOpen, [collapseName]: !collapseOpen[collapseName] })
   };
+  const [snackbarMsg, setSnackbarMsg] = useState({
+    open: false,
+    horizontal: 'right',
+    vertical: 'top'
+  })
+  const {open, horizontal, vertical} = snackbarMsg;
 
   const handleRefNoChange = (event) => {
     setRefNo(event.target.value);
@@ -90,24 +103,28 @@ export default function Admin() {
     });
   }
 
-  const searchForRefNo = () => {
-    axios.get(`http://localhost:3005/member/${refNo}`).then((data) => {
-      let subscriberInfo = data.data;
-      if (subscriberInfo.success) {
-        setMemberInfo(subscriberInfo.member_info[0]);
-      }
-    })
-    axios.get(`http://localhost:3005/paymentHistory/${refNo}`).then((payments) => {
-      let paymentsHistory = payments.data;
-      if (paymentsHistory.success) {
-        setPaymentHistory(paymentsHistory.payment_history);
-      }
-    })
+  const searchForRefNo = (e) => {
+    e.preventDefault();
+    if (refNo) {
+      axios.get(`http://localhost:3005/member/${refNo}`).then((data) => {
+        let subscriberInfo = data.data;
+        if (subscriberInfo.success) {
+          setMemberInfo(subscriberInfo.member_info[0]);
+          subscriberInfo.member_info[0] == undefined ? setSnackbarMsg({...snackbarMsg, open: true}) : setSnackbarMsg({...snackbarMsg, open: false});
+        }
+      })
+      axios.get(`http://localhost:3005/paymentHistory/${refNo}`).then((payments) => {
+        let paymentsHistory = payments.data;
+        if (paymentsHistory.success) {
+          setPaymentHistory(paymentsHistory.payment_history);
+        }
+      })
+    }
   }
 
   return (
     <div className="admin-main">
-      <Box className="search-form">
+      <form className="search-form" onSubmit={(event)=>searchForRefNo(event)}>
         <TextField
           id="outlined-name"
           label="Ref No"
@@ -117,10 +134,16 @@ export default function Admin() {
           sx={{ marginRight: 1, flex: 1, backgroundColor: "white" }}
           autoFocus
         />
-        <Fab color="secondary" aria-label="add" onClick={searchForRefNo}>
+        <Fab color="secondary" aria-label="add" onClick={(event)=>searchForRefNo(event)}>
           <SearchIcon />
         </Fab>
-      </Box>
+      </form>
+      <Snackbar
+        anchorOrigin={{vertical, horizontal}}
+        open={open}
+      >
+      <Alert severity="error">No records found !</Alert>
+      </Snackbar>
       {memberInfo ? (
         <>
           <Card>
@@ -138,7 +161,7 @@ export default function Admin() {
                   //TODO change it to dynamic values 
                 }
                 <Chip icon={<LocalShippingIcon />} label="04/12/2021" color="success" variant="contained" />
-                <Chip icon={<TimelapseIcon />} label= {paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
+                <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
               </Stack>
             </CardContent>
             <CardContent>
@@ -321,11 +344,11 @@ export default function Admin() {
               <Collapse in={collapseOpen.payment} timeout="auto" unmountOnExit>
                 <List className="admin-main-payment-hist">
                   {paymentHistory.map((payment, index) => (
-                    <ListItem key={payment.suid} style={{ borderBottom : (index != paymentHistory.length-1) ? "1px solid lightgray" : ''}}>
+                    <ListItem key={payment.suid} style={{ borderBottom: (index != paymentHistory.length - 1) ? "1px solid lightgray" : '' }}>
                       <Grid container spacing={2}>
                         <Grid item xs={9}>
                           <ListItemText style={{ overflowWrap: 'anywhere' }} primary={formatDateWithMonthName(payment.recdate)} secondary={formatPaymentInfo(payment)} />
-                          <Button color="secondary" variant="outlined" startIcon={<ShareIcon fontSize='small'/>} onClick={()=>generateImage(payment)} size="small" className="share-receipt-button">
+                          <Button color="secondary" variant="outlined" startIcon={<ShareIcon fontSize='small' />} onClick={() => generateImage(payment)} size="small" className="share-receipt-button">
                             Recipt
                           </Button>
                         </Grid>
@@ -356,7 +379,7 @@ export default function Admin() {
           ))}
         </SpeedDial>
       </Box>
-      <Receipt ref={receiptSection} selectedPayment={selectedPayment} memberInfo = {memberInfo}/>
+      {memberInfo ? (<Receipt ref={receiptSection} selectedPayment={selectedPayment} memberInfo={memberInfo} />) : '' }
     </div>
   );
 }
