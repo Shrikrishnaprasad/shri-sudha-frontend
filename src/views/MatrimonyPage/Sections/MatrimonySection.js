@@ -10,22 +10,31 @@ import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
-import { TextField } from "@mui/material";
+import { Checkbox, MenuItem, TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import { InputLabel, Select } from "@material-ui/core";
 
 const useStyles = makeStyles(styles);
 
 export default function MatrimonySection() {
   const classes = useStyles();
   const [matrimonyDetails, setMatrimonyDetails] = useState({});
-  const [isKannada, setIsKannada] = useState("kannada");
+  const [isKannada, setIsKannada] = useState("Madhwa Kannada");
   const [gender, setGender] = useState("male");
-
-  const handleChange = (event) => {
+  const [gothra, setGothra] = useState("Select Gothra");
+  const [nakshatra, setNakshatra] = useState("Select Nakshatra");
+  const [anotherMarriage, setAnotherMarriage] = useState(false);
+  const handleChangeType = (event) => {
     setIsKannada(event.target.value);
+  };
+  const handleChangeGothra = (event) => {
+    setGothra(event.target.value);
+  };
+  const handleChangeNakshatra = (event) => {
+    setNakshatra(event.target.value);
   };
 
   const handleChangeGender = (event) => {
@@ -73,13 +82,13 @@ export default function MatrimonySection() {
     <div className={classes.section} style={{ padding: "10px" }}>
       <GridContainer justify="center">
         <GridItem cs={12} sm={12} md={8}>
-          <h4 className={classes.description}>
+          <h3 className={classes.description}>
             Registration for Matrimony section in Shri Sudha Tmail magazine
-          </h4>
+          </h3>
           <form onSubmit={handleSubmit}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
-                <h6 className={classes.description}>Personal Details</h6>
+                <h5 className={classes.description}>Personal Details</h5>
               </GridItem>
               <GridItem xs={12} sm={12} md={12} container justify="center">
                 <FormControl component="fieldset">
@@ -152,57 +161,67 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={4}>
-                <TextField
-                  label="Gothra"
-                  color="secondary"
-                  fullWidth
-                  value={matrimonyDetails?.gothra || ""}
-                  required
-                  margin="dense"
-                  onChange={(e) =>
-                    setMatrimonyDetails({
-                      ...matrimonyDetails,
-                      gothra: e.target.value,
-                    })
-                  }
-                />
-              </GridItem>
-              <GridItem xs={6} sm={6} md={4}>
-                <TextField
-                  label="Star (Nakshathra)"
-                  color="secondary"
-                  fullWidth
-                  value={matrimonyDetails?.star || ""}
-                  required
-                  margin="dense"
-                  onChange={(e) =>
-                    setMatrimonyDetails({
-                      ...matrimonyDetails,
-                      star: e.target.value,
-                    })
-                  }
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    row
-                    name="row-radio-buttons-group"
-                    value={isKannada}
-                    onChange={handleChange}
+              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+                <FormControl>
+                  <InputLabel style={{ marginBottom: "8px" }}>
+                    Gothra *
+                  </InputLabel>
+
+                  <Select
+                    margin="dense"
+                    variant="outlined"
+                    value={gothra}
+                    onChange={handleChangeGothra}
+                    fullWidth
+                    required
+                    style={{ padding: "8px" }}
                   >
-                    <FormControlLabel
-                      value="kannada"
-                      control={<Radio color="secondary" />}
-                      label="Madhwa Kannada"
-                    />
-                    <FormControlLabel
-                      value="desistha"
-                      control={<Radio color="secondary" />}
-                      label="Desistha"
-                    />
-                  </RadioGroup>
+                    <MenuItem value={"Select Gothra"} disabled>
+                      Select Gothra
+                    </MenuItem>
+                    <MenuItem value={"Madhwa Kannada"}>Madhwa Kannada</MenuItem>
+                    <MenuItem value={"Desistha"}>Desistha</MenuItem>
+                  </Select>
+                </FormControl>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+                <FormControl>
+                  <InputLabel style={{ marginBottom: "8px" }}>
+                    Nakshathra *
+                  </InputLabel>
+
+                  <Select
+                    margin="dense"
+                    variant="outlined"
+                    value={nakshatra}
+                    onChange={handleChangeNakshatra}
+                    fullWidth
+                    required
+                    style={{ padding: "8px" }}
+                  >
+                    <MenuItem value={"Select Nakshatra"} disabled>
+                      Select Nakshatra
+                    </MenuItem>
+                    <MenuItem value={"Madhwa Kannada"}>Madhwa Kannada</MenuItem>
+                    <MenuItem value={"Desistha"}>Desistha</MenuItem>
+                  </Select>
+                </FormControl>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+                <FormControl>
+                  <InputLabel style={{ marginBottom: "8px" }}>Type</InputLabel>
+
+                  <Select
+                    margin="dense"
+                    variant="outlined"
+                    value={isKannada}
+                    onChange={handleChangeType}
+                    fullWidth
+                    style={{ padding: "8px" }}
+                  >
+                    <MenuItem value={"Madhwa Kannada"}>Madhwa Kannada</MenuItem>
+                    <MenuItem value={"Desistha"}>Desistha</MenuItem>
+                  </Select>
                 </FormControl>
               </GridItem>
 
@@ -257,7 +276,7 @@ export default function MatrimonySection() {
 
               <GridItem xs={12} sm={12} md={12}>
                 <br />
-                <h6 className={classes.description}>Contact Details</h6>
+                <h5 className={classes.description}>Contact Details</h5>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <TextField
@@ -306,7 +325,7 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
+              <GridItem xs={12} sm={12} md={6}>
                 <TextField
                   label="Place of residence"
                   color="secondary"
@@ -322,8 +341,26 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <Button type="submit" color="primary">
+              <GridItem xs={12} sm={12} md={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="secondary"
+                      checked={anotherMarriage}
+                      onChange={() => setAnotherMarriage(!anotherMarriage)}
+                    />
+                  }
+                  label="* If any second marriage kindly please check this"
+                />
+              </GridItem>
+              <GridItem
+                align="center"
+                xs={12}
+                sm={12}
+                md={6}
+                style={{ marginLeft: "50%" }}
+              >
+                <Button fullWidth type="submit" color="primary">
                   Register
                 </Button>
               </GridItem>
