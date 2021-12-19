@@ -16,6 +16,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { InputLabel, Select } from "@material-ui/core";
+import { NakshathraData } from "./NakshathraData";
+import { GothraData } from "./GothraData";
 
 const useStyles = makeStyles(styles);
 
@@ -161,9 +163,9 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+              <GridItem xs={12} sm={12} md={3} style={{ margin: "10px 0px" }}>
                 <FormControl>
-                  <InputLabel style={{ marginBottom: "8px" }}>
+                  <InputLabel style={{ marginBottom: "4px" }}>
                     Gothra *
                   </InputLabel>
 
@@ -176,17 +178,30 @@ export default function MatrimonySection() {
                     required
                     style={{ padding: "8px" }}
                   >
-                    <MenuItem value={"Select Gothra"} disabled>
+                    <MenuItem
+                      value={"Select Gothra"}
+                      disabled
+                      style={{ padding: "8px" }}
+                    >
                       Select Gothra
                     </MenuItem>
-                    <MenuItem value={"Madhwa Kannada"}>Madhwa Kannada</MenuItem>
-                    <MenuItem value={"Desistha"}>Desistha</MenuItem>
+                    {GothraData.map((gothra, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          value={gothra}
+                          style={{ padding: "8px 4px" }}
+                        >
+                          {gothra.gothra}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </FormControl>
               </GridItem>
-              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+              <GridItem xs={12} sm={12} md={5} style={{ margin: "10px 0px" }}>
                 <FormControl>
-                  <InputLabel style={{ marginBottom: "8px" }}>
+                  <InputLabel style={{ marginBottom: "4px" }}>
                     Nakshathra *
                   </InputLabel>
 
@@ -197,19 +212,32 @@ export default function MatrimonySection() {
                     onChange={handleChangeNakshatra}
                     fullWidth
                     required
-                    style={{ padding: "8px" }}
+                    style={{ padding: "8px 0px" }}
                   >
-                    <MenuItem value={"Select Nakshatra"} disabled>
-                      Select Nakshatra
+                    <MenuItem
+                      value={"Select Nakshatra"}
+                      disabled
+                      style={{ padding: "8px 4px" }}
+                    >
+                      Select Nakshathra
                     </MenuItem>
-                    <MenuItem value={"Madhwa Kannada"}>Madhwa Kannada</MenuItem>
-                    <MenuItem value={"Desistha"}>Desistha</MenuItem>
+                    {NakshathraData.map((nakshathra, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          value={nakshathra.value}
+                          style={{ padding: "8px 4px" }}
+                        >
+                          {nakshathra.nakshathra}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </FormControl>
               </GridItem>
-              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+              <GridItem xs={12} sm={12} md={3} style={{ margin: "10px 0px" }}>
                 <FormControl>
-                  <InputLabel style={{ marginBottom: "8px" }}>Type</InputLabel>
+                  <InputLabel style={{ marginBottom: "4px" }}>Type</InputLabel>
 
                   <Select
                     margin="dense"
@@ -217,10 +245,17 @@ export default function MatrimonySection() {
                     value={isKannada}
                     onChange={handleChangeType}
                     fullWidth
-                    style={{ padding: "8px" }}
+                    style={{ padding: "8px 0px" }}
                   >
-                    <MenuItem value={"Madhwa Kannada"}>Madhwa Kannada</MenuItem>
-                    <MenuItem value={"Desistha"}>Desistha</MenuItem>
+                    <MenuItem
+                      value={"Madhwa Kannada"}
+                      style={{ padding: "8px 4px" }}
+                    >
+                      Madhwa Kannada
+                    </MenuItem>
+                    <MenuItem value={"Desistha"} style={{ padding: "8px 4px" }}>
+                      Desistha
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </GridItem>
@@ -350,7 +385,9 @@ export default function MatrimonySection() {
                       onChange={() => setAnotherMarriage(!anotherMarriage)}
                     />
                   }
-                  label="* If any second marriage kindly please check this"
+                  label={
+                    <b>* If any second marriage kindly please check this </b>
+                  }
                 />
               </GridItem>
               <GridItem
@@ -358,7 +395,7 @@ export default function MatrimonySection() {
                 xs={12}
                 sm={12}
                 md={6}
-                style={{ marginLeft: "50%" }}
+                style={{ margin: "auto" }}
               >
                 <Button fullWidth type="submit" color="primary">
                   Register

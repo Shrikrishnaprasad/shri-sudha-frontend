@@ -15,7 +15,9 @@ import Parallax from "components/Parallax/Parallax.js";
 import styles from "assets/jss/material-kit-react/views/landingPage.js";
 import GridContainer from "components/Grid/GridContainer";
 import GridItem from "components/Grid/GridItem";
-import { Card, TextField, CardContent } from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
+import { TextField } from "@mui/material";
+
 import Button from "components/CustomButtons/Button.js";
 import NavPills from "components/NavPills/NavPills";
 import { Assignment } from "@material-ui/icons";
@@ -147,10 +149,17 @@ export default function Feedback(props) {
                                       />
                                     </GridItem>
 
-                                    <GridItem xs={12} sm={12} md={6}>
+                                    <GridItem
+                                      align="center"
+                                      xs={12}
+                                      sm={12}
+                                      md={6}
+                                      style={{ margin: "auto" }}
+                                    >
                                       <Button
                                         type="submit"
                                         color="primary"
+                                        fullWidth
                                         style={{ marginTop: "16px" }}
                                       >
                                         Send
