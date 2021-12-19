@@ -15,7 +15,7 @@ import Chip from '@mui/material/Chip';
 
 export default function MatrimonyCard() {
   return (
-    <Card sx={{ maxWidth: 290, border: "2px solid", borderRadius: "20px" }}>
+    <Card sx={{ border: "2px solid", borderRadius: "20px"}}>
       <CardContent>
         <Box sx={{ width: '100%' }}>
           <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

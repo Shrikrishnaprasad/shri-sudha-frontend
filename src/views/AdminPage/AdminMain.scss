@@ -83,3 +83,72 @@ body{
 	font-weight: 700;
 	margin-bottom: 40px;
 }
+
+.admin-main .MuiCardHeader-title {
+	font-size: 20px;
+}
+
+.admin-main .MuiCardHeader-subheader{
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.admin-main-payment-hist{
+	padding-left: 0;
+}
+
+.admin-main-payment-hist .MuiListItemText-primary{
+	color: #9c27b0;
+	font-weight: 700;
+}
+
+.admin-main .search-form{
+	margin-bottom: 12px;
+	text-align: end;
+}
+
+.receipt-header{
+	display: flex;
+	justify-content: space-around;
+	background-color: #ea8b45;
+	padding: 20px
+}
+
+.receipt-container{
+	border: 3px solid black;
+	width: 1000px;
+	margin: auto;
+}
+
+.d-flex{
+	display: flex;
+	align-items: center;
+}
+
+.receipt-ss-contact-info{
+	font-size: 19px;
+	color: white;
+	line-height: 1.7;
+}
+
+.receipt-body{
+	margin: 20px 10px;
+	&-header{
+		padding: 10px;
+		color: white;
+		background-color: #ea8b45;
+		display: flex;
+		justify-content: space-between;
+	}
+}
+
+.share-receipt-button{
+	border: none !important;
+	padding:0 !important
+}
+
+@media screen and (max-width: 500px){
+	.admin-main .search-form{
+		display: flex;
+	}	
+}
