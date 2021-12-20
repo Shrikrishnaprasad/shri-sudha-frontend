@@ -8,14 +8,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Button from "components/CustomButtons/Button.js";
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import styles from "assets/jss/material-kit-react/views/landingPageSections/workStyle.js";
-import { Checkbox, MenuItem, TextField } from "@mui/material";
+import { Checkbox, TextField } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import { InputLabel, Select } from "@material-ui/core";
+
 import { NakshathraData } from "./NakshathraData";
 import { GothraData } from "./GothraData";
 
@@ -114,7 +116,7 @@ export default function MatrimonySection() {
                 </FormControl>
               </GridItem>
 
-              <GridItem xs={12} sm={12} md={6}>
+              <GridItem xs={12} sm={12} md={4}>
                 <TextField
                   label="Your Name"
                   color="secondary"
@@ -131,7 +133,7 @@ export default function MatrimonySection() {
                 />
               </GridItem>
 
-              <GridItem xs={6} sm={6} md={4}>
+              <GridItem xs={12} sm={12} md={4}>
                 <TextField
                   type="date"
                   color="secondary"
@@ -147,7 +149,7 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={2}>
+              <GridItem xs={12} sm={12} md={4}>
                 <TextField
                   label="Height"
                   color="secondary"
@@ -163,9 +165,9 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={12} sm={12} md={3} style={{ margin: "10px 0px" }}>
-                <FormControl>
-                  <InputLabel style={{ marginBottom: "4px" }}>
+              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+                <FormControl fullWidth>
+                  <InputLabel color="secondary" style={{ marginBottom: "4px" }}>
                     Gothra *
                   </InputLabel>
 
@@ -173,6 +175,8 @@ export default function MatrimonySection() {
                     margin="dense"
                     variant="outlined"
                     value={gothra}
+                    label="Gothra"
+                    color="secondary"
                     onChange={handleChangeGothra}
                     fullWidth
                     required
@@ -199,9 +203,9 @@ export default function MatrimonySection() {
                   </Select>
                 </FormControl>
               </GridItem>
-              <GridItem xs={12} sm={12} md={5} style={{ margin: "10px 0px" }}>
-                <FormControl>
-                  <InputLabel style={{ marginBottom: "4px" }}>
+              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+                <FormControl fullWidth>
+                  <InputLabel color="secondary" style={{ marginBottom: "4px" }}>
                     Nakshathra *
                   </InputLabel>
 
@@ -209,6 +213,8 @@ export default function MatrimonySection() {
                     margin="dense"
                     variant="outlined"
                     value={nakshatra}
+                    color="secondary"
+                    label="Nakshathra"
                     onChange={handleChangeNakshatra}
                     fullWidth
                     required
@@ -235,15 +241,17 @@ export default function MatrimonySection() {
                   </Select>
                 </FormControl>
               </GridItem>
-              <GridItem xs={12} sm={12} md={3} style={{ margin: "10px 0px" }}>
-                <FormControl>
-                  <InputLabel style={{ marginBottom: "4px" }}>Type</InputLabel>
+              <GridItem xs={12} sm={12} md={4} style={{ margin: "10px 0px" }}>
+                <FormControl fullWidth>
+                  <InputLabel color="secondary" style={{ marginBottom: "4px" }}>Type</InputLabel>
 
                   <Select
                     margin="dense"
                     variant="outlined"
                     value={isKannada}
+                    color="secondary"
                     onChange={handleChangeType}
+                    label="Age"
                     fullWidth
                     style={{ padding: "8px 0px" }}
                   >
@@ -260,7 +268,7 @@ export default function MatrimonySection() {
                 </FormControl>
               </GridItem>
 
-              <GridItem xs={6} sm={6} md={4}>
+              <GridItem xs={12} sm={12} md={4}>
                 <TextField
                   label="Education"
                   color="secondary"
@@ -276,7 +284,7 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={4}>
+              <GridItem xs={12} sm={12} md={4}>
                 <TextField
                   label="Profession"
                   color="secondary"
@@ -292,7 +300,7 @@ export default function MatrimonySection() {
                   }
                 />
               </GridItem>
-              <GridItem xs={6} sm={6} md={4}>
+              <GridItem xs={12} sm={12} md={4}>
                 <TextField
                   label="Salary"
                   color="secondary"

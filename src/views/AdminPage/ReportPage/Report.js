@@ -18,6 +18,8 @@ import Checkbox from '@mui/material/Checkbox';
 import AccountCircleIcon from '@mui/icons-material/AccountCircleOutlined';
 import DriveFileMoveIcon from '@mui/icons-material/DriveFileMoveOutlined';
 import { useState, useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
 //http
 import axios from 'axios';
 import '../AdminMain.scss';
@@ -77,7 +79,7 @@ export default function Report() {
         setPaginationInfo((prevState) => {
             return { ...prevState, currentPage: newPage };
         });
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
     }
 
     const handleRowPerPage = (event) => {
@@ -123,9 +125,9 @@ export default function Report() {
 
     const doPagination = () => {
         let memberList = filteredList.length > 0 ? filteredList : allMembers;
-        if(memberList.length > 0) {
-        let paginatedMembers = memberList.slice((paginationInfo.currentPage * paginationInfo.noOfRecords), (paginationInfo.currentPage * paginationInfo.noOfRecords) + paginationInfo.noOfRecords);
-        setPaginatedMembers(paginatedMembers);
+        if (memberList.length > 0) {
+            let paginatedMembers = memberList.slice((paginationInfo.currentPage * paginationInfo.noOfRecords), (paginationInfo.currentPage * paginationInfo.noOfRecords) + paginationInfo.noOfRecords);
+            setPaginatedMembers(paginatedMembers);
         }
     }
 
@@ -144,7 +146,7 @@ export default function Report() {
             let filtertedMembers = [];
             for (let member of allMembers) {
                 for (let value in member) {
-                    if(isRefNoHeader(value))
+                    if (isRefNoHeader(value))
                         member[value] = member[value].toString();
                     if (value !== 'isSelected' && member[value].toLowerCase().includes(filter.toLowerCase())) {
                         filtertedMembers.push(member);
@@ -158,13 +160,13 @@ export default function Report() {
             setFilteredList([]);
         }
     }
-    
-    const isRefNoHeader = (value) =>{
+
+    const isRefNoHeader = (value) => {
         return value == 'refno';
     }
 
     useEffect(() => {
-        axios.get('http://localhost:3005/users/report').then(({data})=>{
+        axios.get('http://localhost:3005/users/report').then(({ data }) => {
             data.success ? setAllMembers(data.users) : setAllMembers([]);
         })
     }, [])
@@ -196,10 +198,10 @@ export default function Report() {
                 <Grid item xs={3}>
                     <Card sx={{ borderRadius: 3, backgroundColor: 'mediumorchid', color: 'white' }}>
                         <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'700' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
                                     <h5>Total Members</h5>
-                                    <p>375</p>
+                                    <p>{allMembers.length}</p>
                                 </div>
                                 <div className='admin-reports-user-icon'>
                                     <AccountCircleIcon />
@@ -209,9 +211,9 @@ export default function Report() {
                     </Card>
                 </Grid>
                 <Grid item xs={3}>
-                    <Card sx={{ borderRadius: 3, backgroundColor: 'rgb(30,136,229)', color:'white' }}>
+                    <Card sx={{ borderRadius: 3, backgroundColor: 'rgb(30,136,229)', color: 'white' }}>
                         <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'700' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
                                     <h5>New Members</h5>
                                     <p>375</p>
@@ -226,7 +228,7 @@ export default function Report() {
                 <Grid item xs={3}>
                     <Card sx={{ borderRadius: 3, backgroundColor: '#e01fc8b8', color: 'white' }}>
                         <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight:'700' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
                                     <h5>Last file export</h5>
                                     <p>07/10/2021</p>
@@ -239,75 +241,86 @@ export default function Report() {
                     </Card>
                 </Grid>
             </Grid>
-            <TableContainer component={Paper} className="admin-table-container">
-                <Table aria-label="simple table" >
-                    <TableHead className="admin-table-header">
-                        <TableRow>
-                            {
-                                tableRowHeaders.map((header) => {
-                                    return (
-                                        <TableCell align="left" key={header.name} >
-                                            {header.name == 'Ref No' ? (
-                                                <>
-                                                    <Checkbox
-                                                        color="primary"
-                                                        checked={selectAll}
-                                                        onChange={() => handleSelectAll()}
-                                                    /> {header.name}</>) : header.name}
-                                            <TableSortLabel
-                                                active={tableSortLabel.selectedHeader == header.fieldName}
-                                                direction={tableSortLabel.selectedOrder}
-                                                onClick={() => handleHeaderChange(header.fieldName)}
-                                            >
-                                                {/* <Box component="span" sx={visuallyHidden}>
+            {allMembers.length > 0 ?
+                (<><TableContainer component={Paper} className="admin-table-container">
+                    <Table aria-label="simple table" >
+                        <TableHead className="admin-table-header">
+                            <TableRow>
+                                {
+                                    tableRowHeaders.map((header) => {
+                                        return (
+                                            <TableCell align="left" key={header.name} >
+                                                {header.name == 'Ref No' ? (
+                                                    <>
+                                                        <Checkbox
+                                                            color="primary"
+                                                            checked={selectAll}
+                                                            onChange={() => handleSelectAll()}
+                                                        /> {header.name}</>) : header.name}
+                                                <TableSortLabel
+                                                    active={tableSortLabel.selectedHeader == header.fieldName}
+                                                    direction={tableSortLabel.selectedOrder}
+                                                    onClick={() => handleHeaderChange(header.fieldName)}
+                                                >
+                                                    {/* <Box component="span" sx={visuallyHidden}>
                                             </Box> */}
-                                            </TableSortLabel>
-                                        </TableCell>
-                                    )
-                                })
-                            }
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {paginatedMembers.map((member, index) => (
-                            <TableRow
-                                key={member.rno}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-
-                                <TableCell component="th" scope="row" align="left">
-                                    <Checkbox
-                                        color="primary"
-                                        checked={member.isSelected || false}
-                                        onChange={() => handleCheckboxChange(index)}
-                                    />{member.refno}
-                                </TableCell>
-                                <TableCell align="left">{member.mobile}</TableCell>
-                                <TableCell align="left">{member.duedate}</TableCell>
-                                <TableCell align="left">{member.mname}</TableCell>
-                                <TableCell align="left">{member.line1}</TableCell>
-                                <TableCell align="left">{member.line2}</TableCell>
-                                <TableCell align="left">{member.city}</TableCell>
-                                <TableCell align="left">{member.pincode}</TableCell>
+                                                </TableSortLabel>
+                                            </TableCell>
+                                        )
+                                    })
+                                }
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <div>
-                <TablePagination
-                    rowsPerPageOptions={[50, 100, 200]}
-                    component="div"
-                    count={filteredList.length > 0 ? filteredList.length : allMembers.length}
-                    rowsPerPage={paginationInfo.noOfRecords}
-                    page={paginationInfo.currentPage}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowPerPage}
-                />
-                <Button variant="contained" color="secondary" size="large" style={{ margin: '20px 0', }}>
-                    Export to csv
-                </Button>
-            </div>
+                        </TableHead>
+                        <TableBody>
+                            {paginatedMembers.map((member, index) => (
+                                <TableRow
+                                    key={member.rno}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+
+                                    <TableCell component="th" scope="row" align="left">
+                                        <Checkbox
+                                            color="primary"
+                                            checked={member.isSelected || false}
+                                            onChange={() => handleCheckboxChange(index)}
+                                        />{member.refno}
+                                    </TableCell>
+                                    <TableCell align="left">{member.mobile}</TableCell>
+                                    <TableCell align="left">{member.duedate}</TableCell>
+                                    <TableCell align="left">{member.mname}</TableCell>
+                                    <TableCell align="left">{member.line1}</TableCell>
+                                    <TableCell align="left">{member.line2}</TableCell>
+                                    <TableCell align="left">{member.city}</TableCell>
+                                    <TableCell align="left">{member.pincode}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                    <div>
+                        <TablePagination
+                            rowsPerPageOptions={[50, 100, 200]}
+                            component="div"
+                            count={filteredList.length > 0 ? filteredList.length : allMembers.length}
+                            rowsPerPage={paginationInfo.noOfRecords}
+                            page={paginationInfo.currentPage}
+                            onPageChange={handlePageChange}
+                            onRowsPerPageChange={handleRowPerPage}
+                        />
+                        <Button variant="contained" color="secondary" size="large" style={{ margin: '20px 0', }}>
+                            Export to csv
+                        </Button>
+                    </div>
+                </>) :
+                <>
+                <Stack sx={{ display: 'flex', justifyContent: 'center', padding: '30px' }} spacing={2} direction="row">
+                    <CircularProgress color="secondary" />
+                </Stack>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    Load the lord in, while loading...
+                </div>
+                </>
+            }
         </Box>
 
     );
