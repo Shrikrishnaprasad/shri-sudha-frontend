@@ -107,6 +107,16 @@ body{
 	text-align: end;
 }
 
+.sales-amount-card{
+	min-height: 161px;
+	margin-top: 24px;
+	border-radius: 20px !important; 
+	background-color: #5922c8eb !important; 
+	color: white !important; 
+	font-size: 24px;
+	font-family: monospace;
+}
+
 .receipt-header{
 	display: flex;
 	justify-content: space-around;
@@ -145,6 +155,12 @@ body{
 .share-receipt-button{
 	border: none !important;
 	padding:0 !important
+}
+
+#bar-chart{
+	width: 100%;
+	max-width: 900px;
+	max-height: 500px;
 }
 
 @media screen and (max-width: 500px){

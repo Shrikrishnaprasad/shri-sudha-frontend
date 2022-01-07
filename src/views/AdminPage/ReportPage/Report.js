@@ -20,8 +20,17 @@ import DriveFileMoveIcon from '@mui/icons-material/DriveFileMoveOutlined';
 import { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import SearchIcon from '@mui/icons-material/Search';
+import Fab from '@mui/material/Fab';
+
 //http
 import axios from 'axios';
+//csv export 
+import { CSVLink } from "react-csv";
 import '../AdminMain.scss';
 
 const tableRowHeaders = [
@@ -34,7 +43,7 @@ const tableRowHeaders = [
         fieldName: 'mobile'
     },
     {
-        name: 'Due Date',
+        name: 'Due Date(MM/YY)',
         fieldName: 'duedate'
     },
     {
@@ -59,8 +68,13 @@ const tableRowHeaders = [
     }
 ]
 
+const today = new Date();
+
 export default function Report() {
+    const [lastReportDate, setLastReportDate] = useState();
     const [filter, setFilter] = useState('');
+    const [selectedDateForReport, setSelectedDateForReport] = useState(today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate())
+    const [deliveryType, setDeliveryType] = useState('all');
     const [selectAll, setSelectAll] = useState(false);
     const [filteredList, setFilteredList] = useState([]);
     const [tableSortLabel, setTableSortLabel] = useState({
@@ -74,6 +88,7 @@ export default function Report() {
 
     const [allMembers, setAllMembers] = useState([]);
     const [paginatedMembers, setPaginatedMembers] = useState(allMembers);
+    const [selectedMembers, setSelectedMembers] = useState([]);
 
     const handlePageChange = (event, newPage) => {
         setPaginationInfo((prevState) => {
@@ -118,7 +133,6 @@ export default function Report() {
     }
 
     const handleCheckboxChange = (i) => {
-        console.log(paginatedMembers[i])
         paginatedMembers[i]['isSelected'] = !paginatedMembers[i]['isSelected'];
         setPaginatedMembers([...paginatedMembers])
     }
@@ -135,13 +149,31 @@ export default function Report() {
         setFilter(event.target.value)
     }
 
-    const handleSelectAll = () => {
-        allMembers.map((member) => member.isSelected = !selectAll);
-        setSelectAll(!selectAll);
-        setAllMembers([...allMembers])
+    const handleDateChange = async (event) => {
+        setSelectedDateForReport(event.target.value)
     }
 
-    const getFilteredData = () => {
+    const handleDeliveryTypeChange = (event) => {
+        setDeliveryType(event.target.value);
+        let filteredUsers = allMembers.filter((member) => {
+            return member.dtype.toLowerCase() == event.target.value.toLowerCase()
+        })
+        event.target.value == 'all' ? setFilteredList(allMembers) : setFilteredList(filteredUsers);
+    }
+
+    const handleSelectAll = () => {
+        if(filteredList.length > 0) {
+            filteredList.map((member) => member.isSelected = !selectAll);
+        }
+        else {
+            allMembers.map((member) => member.isSelected = !selectAll);
+            setAllMembers([...allMembers])
+        }
+        setSelectAll(!selectAll);
+        
+    }
+
+    const getFilteredData = async () => {
         if (filter != '') {
             let filtertedMembers = [];
             for (let member of allMembers) {
@@ -157,7 +189,7 @@ export default function Report() {
             setFilteredList(filtertedMembers);
         }
         else {
-            setFilteredList([]);
+            setFilteredList([...allMembers]);
         }
     }
 
@@ -165,10 +197,45 @@ export default function Report() {
         return value == 'refno';
     }
 
-    useEffect(() => {
-        axios.get('http://localhost:3005/users/report').then(({ data }) => {
+    const getUsersForReport = async () => {
+        axios.get(`http://localhost:3005/users/report/${selectedDateForReport}`).then(({ data }) => {
             data.success ? setAllMembers(data.users) : setAllMembers([]);
+            setLastReportDate(data.lastReportDate);
         })
+    }
+
+    const getReportWithSelectedMembers = async (event, done) => {
+        let selectedMemberList = [];
+        if(filteredList.length > 0) {
+            selectedMemberList = filteredList.filter((member) => {
+                return member.isSelected;
+            })
+        }
+        else {
+            selectedMemberList = allMembers.filter((member) => {
+                return member.isSelected;
+            })
+        }
+        const selectedMembersRefNo = selectedMemberList.map(member=> member.refno);
+        await setSelectedMembers(selectedMemberList)
+        await axios.post(`http://localhost:3005/users/report/exportDate`, {"members": selectedMembersRefNo}).then(({data})=>{
+            if(!data.success)
+                console.log('Error in updating export date')
+        })
+        done();
+    }
+
+    const getMembersAfterFileExport = () => {
+        const newMembers = allMembers.filter((member) => {
+            const selectedDate = new Date(lastReportDate)
+            return (new Date(member.pdate) < new Date())
+                    && (new Date(member.recdate) > selectedDate && new Date(member.recdate) < new Date())
+        })
+        setFilteredList(newMembers);
+    }
+
+    useEffect(() => {
+        getUsersForReport();
     }, [])
 
     useEffect(() => {
@@ -178,33 +245,27 @@ export default function Report() {
     }, [filteredList])
 
     useEffect(() => {
-        console.log('pagination called')
+        getUsersForReport();
+        setFilteredList([]);
+    }, [selectedDateForReport])
+
+    useEffect(() => {
         doPagination();
     }, [paginationInfo.currentPage, paginationInfo.noOfRecords, tableSortLabel.selectedOrder, allMembers])
 
     return (
         <Box>
             <Grid container spacing={2} columns={16}>
-                <Grid item xs={7}>
-                    <Card sx={{ borderRadius: 3, padding: 1.5 }} className="admin-report-filter-container">
-                        <CardContent>
-                            <Grid container spacing={2} columns={16}>
-                                <Grid item xs={12}><TextField label="Filter" color="secondary" fullWidth value={filter} onChange={handleFilterChange} /></Grid>
-                                <Grid item xs={4}><Button variant="outlined" color="secondary" size="large" style={{ marginTop: '12px' }} onClick={() => getFilteredData()}>Refresh</Button></Grid>
-                            </Grid>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <Card sx={{ borderRadius: 3, backgroundColor: 'mediumorchid', color: 'white' }}>
                         <CardContent>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
-                                    <h5>Total Members</h5>
-                                    <p>{allMembers.length}</p>
+                                    <h5>Previous report taken on</h5>
+                                    <p>{lastReportDate}</p>
                                 </div>
                                 <div className='admin-reports-user-icon'>
-                                    <AccountCircleIcon />
+                                    <DriveFileMoveIcon />
                                 </div>
                             </div>
                         </CardContent>
@@ -216,7 +277,7 @@ export default function Report() {
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
                                     <h5>New Members</h5>
-                                    <p>375</p>
+                                    <button onClick={getMembersAfterFileExport}>click here</button>
                                 </div>
                                 <div className='admin-reports-user-icon'>
                                     <AccountCircleIcon />
@@ -225,21 +286,49 @@ export default function Report() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={3}>
-                    <Card sx={{ borderRadius: 3, backgroundColor: '#e01fc8b8', color: 'white' }}>
+                <Grid item xs={9}>
+                    <Card sx={{ borderRadius: 3, padding: 1.5 }} className="admin-report-filter-container">
                         <CardContent>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
-                                <div>
-                                    <h5>Last file export</h5>
-                                    <p>07/10/2021</p>
-                                </div>
-                                <div className='admin-reports-user-icon'>
-                                    <DriveFileMoveIcon />
-                                </div>
-                            </div>
+                            <Grid container spacing={2}>
+                                <Grid item xs={8}><TextField
+                                    type="date"
+                                    color="secondary"
+                                    fullWidth
+                                    value={selectedDateForReport}
+                                    onChange={(e) => handleDateChange(e)}
+                                    required
+                                /></Grid>
+                                <Grid item xs={8}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="typeOfDelivery" color="secondary">Delivery Type</InputLabel>
+                                        <Select
+                                            labelId="typeOfDelivery"
+                                            value={deliveryType}
+                                            label="Delivery Type"
+                                            color='secondary'
+                                            onChange={handleDeliveryTypeChange}
+                                        >
+                                            <MenuItem value={'all'}>All</MenuItem>
+                                            <MenuItem value={'post'}>Post</MenuItem>
+                                            <MenuItem value={'2nd post'}>2nd Post</MenuItem>
+                                            <MenuItem value={'direct'}>Direct</MenuItem>
+                                            <MenuItem value={'couriers'}>Couriers</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
                         </CardContent>
                     </Card>
                 </Grid>
+                <div style={{ display: 'flex', flex: 1, justifyContent: "flex-end", marginTop: "42px" }}>
+                    <Grid item xs={4} style={{ marginRight: "12px" }}><TextField label="Search" color="secondary" style={{ backgroundColor: "white", borderRadius: "5px" }} fullWidth value={filter} onChange={handleFilterChange} /></Grid>
+                    <Grid item xs={1}>
+                        <Fab color="secondary" aria-label="add" onClick={() => getFilteredData()}>
+                            <SearchIcon />
+                        </Fab>
+                    </Grid>
+                        {/* <Button variant="contained" color="secondary" size="large" style={{ padding: "14px" }} fullWidth onClick={() => getFilteredData()}>Search</Button></Grid> */}
+                </div>
             </Grid>
             {allMembers.length > 0 ?
                 (<><TableContainer component={Paper} className="admin-table-container">
@@ -262,8 +351,6 @@ export default function Report() {
                                                     direction={tableSortLabel.selectedOrder}
                                                     onClick={() => handleHeaderChange(header.fieldName)}
                                                 >
-                                                    {/* <Box component="span" sx={visuallyHidden}>
-                                            </Box> */}
                                                 </TableSortLabel>
                                             </TableCell>
                                         )
@@ -307,18 +394,28 @@ export default function Report() {
                             onPageChange={handlePageChange}
                             onRowsPerPageChange={handleRowPerPage}
                         />
+
                         <Button variant="contained" color="secondary" size="large" style={{ margin: '20px 0', }}>
-                            Export to csv
+                            <CSVLink style={{ color: 'white' }}
+                                data={selectedMembers}
+                                onClick={(event, done) => getReportWithSelectedMembers(event, done)}
+                                asyncOnClick={true}
+                                filename={"my-file.csv"}
+                                className="btn btn-primary"
+                                target="_blank"
+                            >
+                                Download CSV
+                            </CSVLink>
                         </Button>
                     </div>
                 </>) :
                 <>
-                <Stack sx={{ display: 'flex', justifyContent: 'center', padding: '30px' }} spacing={2} direction="row">
-                    <CircularProgress color="secondary" />
-                </Stack>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
-                    Load the lord in, while loading...
-                </div>
+                    <Stack sx={{ display: 'flex', justifyContent: 'center', padding: '30px' }} spacing={2} direction="row">
+                        <CircularProgress color="secondary" />
+                    </Stack>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        Load the lord in, while loading...
+                    </div>
                 </>
             }
         </Box>
