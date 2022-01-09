@@ -36,15 +36,15 @@ export default function Feedback(props) {
     msg: "",
   };
   const [feedbackData, setFeedbackData] = useState(initialState);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, subject, msg } = feedbackData;
-    if (name && email && subject && msg) {
-      alert("Thank you for your Registration !");
-      setFeedbackData(initialState);
-      history.push("/home");
-    }
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const { name, email, subject, msg } = feedbackData;
+  //   if (name && email && subject && msg) {
+  //     alert("Thank you for your Registration !");
+  //     setFeedbackData(initialState);
+  //     history.push("/home");
+  //   }
+  // };
   return (
     <div>
       <Header
@@ -81,12 +81,44 @@ export default function Feedback(props) {
                           >
                             <GridContainer justify="center">
                               <GridItem cs={12} sm={12} md={8}>
-                                <form onSubmit={handleSubmit}>
+                                <form
+                                  action="https://formsubmit.co/el/gejoyi"
+                                  method="post"
+                                  //onSubmit={handleSubmit}
+                                >
+                                  <input
+                                    type="hidden"
+                                    name="_template"
+                                    value="table"
+                                  />
+
+                                  <input
+                                    type="hidden"
+                                    name="_captcha"
+                                    value="true"
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="_subject"
+                                    value="Shri Sudha Feedback"
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="_next"
+                                    value="http://localhost:3000/new/feedback"
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="_autoresponse"
+                                    value="Thank you for your Email! we will respond as soon as possible"
+                                  />
+
                                   <GridContainer>
                                     <GridItem xs={12} sm={12} md={12}>
                                       <TextField
                                         label="Your Name"
                                         color="secondary"
+                                        name="name"
                                         fullWidth
                                         value={feedbackData?.name || ""}
                                         required
@@ -105,6 +137,7 @@ export default function Feedback(props) {
                                         color="secondary"
                                         fullWidth
                                         type="email"
+                                        name="email"
                                         value={feedbackData?.email || ""}
                                         required
                                         margin="dense"
@@ -116,27 +149,14 @@ export default function Feedback(props) {
                                         }
                                       />
                                     </GridItem>
-                                    <GridItem xs={12} sm={12} md={12}>
-                                      <TextField
-                                        label="Subject"
-                                        color="secondary"
-                                        fullWidth
-                                        value={feedbackData?.subject || ""}
-                                        required
-                                        margin="dense"
-                                        onChange={(e) =>
-                                          setFeedbackData({
-                                            ...feedbackData,
-                                            subject: e.target.value,
-                                          })
-                                        }
-                                      />
-                                    </GridItem>
+
                                     <GridItem xs={12} sm={12} md={12}>
                                       <TextField
                                         label="Message"
                                         color="secondary"
+                                        name="message"
                                         fullWidth
+                                        maxRows={3}
                                         value={feedbackData?.msg || ""}
                                         required
                                         margin="dense"
