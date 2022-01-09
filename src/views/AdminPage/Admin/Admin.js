@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -42,7 +42,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import WcIcon from '@mui/icons-material/Wc';
 import PaidIcon from '@mui/icons-material/Paid';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 //http
 import axios from 'axios';
@@ -53,6 +53,7 @@ import Receipt from 'components/Receipt/Receipt';
 
 //utilities
 import { formatDateWithMonthName, formatPaymentInfo } from '../../../utilities/HelperFunctions.js';
+import Chart from 'chart.js/auto'
 
 const actions = [
   { icon: <MenuBookIcon fontSize="medium" />, name: 'Upload Book' }
@@ -68,6 +69,10 @@ export default function Admin() {
   const [memberInfo, setMemberInfo] = useState('');
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState('');
+  const [availableYears, setAvailableYears] = useState([]);
+  const [selectedSalesYear, setSelectedSalesYear] = useState(new Date().getFullYear());
+  const [salesInfo, setSalesInfo] = useState([]);
+  const [salesData, setSalesData] = useState([]);
   const toggleCollapse = (collapseName) => {
     setCollapseOpen({ ...collapseOpen, [collapseName]: !collapseOpen[collapseName] })
   };
@@ -76,14 +81,13 @@ export default function Admin() {
     horizontal: 'right',
     vertical: 'top'
   })
-  const {open, horizontal, vertical} = snackbarMsg;
+  const { open, horizontal, vertical } = snackbarMsg;
 
+  const chartRef = useRef(null);
   const handleRefNoChange = (event) => {
     setRefNo(event.target.value);
   }
-
   const receiptSection = useRef(null);
-
   const generateImage = async (payment) => {
     await setSelectedPayment(payment);
     const canvas = await html2canvas(receiptSection.current, {
@@ -110,7 +114,7 @@ export default function Admin() {
         let subscriberInfo = data.data;
         if (subscriberInfo.success) {
           setMemberInfo(subscriberInfo.member_info[0]);
-          subscriberInfo.member_info[0] == undefined ? setSnackbarMsg({...snackbarMsg, open: true}) : setSnackbarMsg({...snackbarMsg, open: false});
+          subscriberInfo.member_info[0] == undefined ? setSnackbarMsg({ ...snackbarMsg, open: true }) : setSnackbarMsg({ ...snackbarMsg, open: false });
         }
       })
       axios.get(`http://localhost:3005/paymentHistory/${refNo}`).then((payments) => {
@@ -122,137 +126,131 @@ export default function Admin() {
     }
   }
 
-  return (
-    <div className="admin-main">
-      <form className="search-form" onSubmit={(event)=>searchForRefNo(event)}>
-        <TextField
-          id="outlined-name"
-          label="Ref No"
-          color="secondary"
-          value={refNo}
-          onChange={(event) => handleRefNoChange(event)}
-          sx={{ marginRight: 1, flex: 1, backgroundColor: "white" }}
-          autoFocus
-        />
-        <Fab color="secondary" aria-label="add" onClick={(event)=>searchForRefNo(event)}>
-          <SearchIcon />
-        </Fab>
-      </form>
-      <Snackbar
-        anchorOrigin={{vertical, horizontal}}
-        open={open}
-      >
-      <Alert severity="error">No records found !</Alert>
-      </Snackbar>
-      {memberInfo ? (
-        <>
-          <Card>
-            <CardHeader avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                G
-              </Avatar>
-            }
-              title={memberInfo.mname}
-              subheader={`(${memberInfo.rno})`}
-            />
-            <CardContent style={{ marginLeft: "72px", padding: 0 }}>
-              <Stack direction="row" spacing={1}>
-                {
-                  //TODO change it to dynamic values 
-                }
-                <Chip icon={<LocalShippingIcon />} label="04/12/2021" color="success" variant="contained" />
-                <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
-              </Stack>
-            </CardContent>
-            <CardContent>
-              <ListItemButton onClick={() => toggleCollapse("general")}>
-                <ListItemIcon>
-                  <AccountCircleIcon fontSize="large" />
-                </ListItemIcon>
-                <ListItemText primary="General" secondary="Basic subscriber details" />
-                {collapseOpen.general ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={collapseOpen.general} timeout="auto" unmountOnExit>
-                <Box sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { sm: '1fr 1fr' },
-                  gap: 2,
-                  marginTop: 2
-                }}>
-                  <TextField
-                    id="outlined-name"
-                    label="Name"
-                    color="secondary"
-                    value={memberInfo.mname}
-                  />
-                  <TextField
-                    id="outlined-uncontrolled"
-                    label="Mobile"
-                    color="secondary"
-                    value={memberInfo.mob}
-                  />
-                  <TextField
-                    id="outlined-name"
-                    label="City"
-                    color="secondary"
-                    value={memberInfo.city}
-                  />
-                  <TextField
-                    id="outlined-name"
-                    label="Pincode"
-                    color="secondary"
-                    value={memberInfo.pincode}
-                  />
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label" color="secondary">Mode</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Model"
-                      color="secondary"
-                      value={memberInfo.dtype}
-                    >
-                      <MenuItem value={"Post"}>Post</MenuItem>
-                      <MenuItem value={"Direct"}>Direct</MenuItem>
-                      <MenuItem value={"Online"}>Online</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    id="outlined-name"
-                    label="line2"
-                    color="secondary"
-                    value={memberInfo.line2}
-                  />
-                  <TextField
-                    id="outlined-uncontrolled"
-                    label="line1"
-                    multiline
-                    rows={3}
-                    color="secondary"
-                    value={memberInfo.line1}
-                  />
-                  <FormControlLabel style={{ paddingBottom: "15px", color: "black" }}
-                    control={
-                      <Switch name="deactivate" color="secondary" />
-                    }
-                    label="Enabling this will deactivate the user"
-                  />
-                  <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<SaveIcon />}>Save changes</Button>
-                  <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<AutorenewIcon />}>Renew</Button>
-                </Box>
-              </Collapse>
+  const handleYearChange = (event) => {
+    console.log(event.target.value);
+    setSelectedSalesYear(event.target.value)
+  }
 
-              <ListItemButton onClick={() => toggleCollapse("matrimony")}>
-                <ListItemIcon>
-                  <WcIcon fontSize="large" />
-                </ListItemIcon>
-                <ListItemText primary="Matrimony" secondary="Matrimony subscription details - till 12/12/2021" />
-                {collapseOpen.matrimony ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={collapseOpen.matrimony} timeout="auto" unmountOnExit>
-                <Box sx={{
-                  marginTop: 2
-                }}>
+  useEffect(()=>{
+    setSalesData(salesInfo.filter((sales)=> sales.year == selectedSalesYear).map((salesData)=> salesData.total_amount));
+  }, [selectedSalesYear])
+
+  useEffect(()=>{
+    console.log(Chart.instances)
+    let key = Object.keys(Chart.instances).pop();
+    if(Chart.instances[key]){
+      Chart.instances[key].data.datasets[0].data = salesData;    
+      Chart.instances[key].update()
+    }
+  },[salesData])
+
+  useEffect(()=>{
+    return () => {
+      let key = Object.keys(Chart.instances).shift();
+      if(Chart.instances[key] && Object.keys(Chart.instances).length > 1){
+        Chart.instances[key].destroy();
+      }       
+    }
+  })
+
+  useEffect(() => {
+    axios.get('http://localhost:3005/sales').then(async ({data})=>{
+      if(data.success){
+        let salesInfo = data.sales_info;
+        setSalesInfo(salesInfo);
+        let salesYear = salesInfo.map(sales=> sales.year).filter((value, index, self) => self.indexOf(value) === index)
+        await setAvailableYears([...salesYear]);
+        await setSalesData(salesInfo.filter((sales)=> sales.year == selectedSalesYear).map((salesData)=> salesData.total_amount));
+        //console.log(salesData);
+      }
+    })
+    new Chart(chartRef.current, {
+      type: 'bar',
+      data: {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [
+          {
+            label: "Amount",
+            backgroundColor: "#3e95cd",// "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: salesData,//[550, 490, 44, 24, 15],
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        legend: { display: true },
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    })
+    }
+    , [])
+
+
+  return (
+    <>
+      <div className="admin-main">
+        <form className="search-form" onSubmit={(event) => searchForRefNo(event)}>
+          <TextField
+            id="outlined-name"
+            label="Ref No"
+            color="secondary"
+            value={refNo}
+            onChange={(event) => handleRefNoChange(event)}
+            sx={{ marginRight: 1, flex: 1, backgroundColor: "white" }}
+            autoFocus
+          />
+          <Fab color="secondary" aria-label="add" onClick={(event) => searchForRefNo(event)}>
+            <SearchIcon />
+          </Fab>
+        </form>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={open}
+        >
+          <Alert severity="error">No records found !</Alert>
+        </Snackbar>
+        {memberInfo ? (
+          <>
+            <Card>
+              <CardHeader avatar={
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                  G
+                </Avatar>
+              }
+                title={memberInfo.mname}
+                subheader={`(${memberInfo.rno})`}
+              />
+              <CardContent style={{ marginLeft: "72px", padding: 0 }}>
+                <Stack direction="row" spacing={1}>
+                  {
+                    //TODO change it to dynamic values 
+                  }
+                  <Chip icon={<LocalShippingIcon />} label="04/12/2021" color="success" variant="contained" />
+                  <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
+                </Stack>
+              </CardContent>
+              <CardContent>
+                <ListItemButton onClick={() => toggleCollapse("general")}>
+                  <ListItemIcon>
+                    <AccountCircleIcon fontSize="large" />
+                  </ListItemIcon>
+                  <ListItemText primary="General" secondary="Basic subscriber details" />
+                  {collapseOpen.general ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={collapseOpen.general} timeout="auto" >
                   <Box sx={{
                     display: 'grid',
                     gridTemplateColumns: { sm: '1fr 1fr' },
@@ -263,123 +261,251 @@ export default function Admin() {
                       id="outlined-name"
                       label="Name"
                       color="secondary"
+                      value={memberInfo.mname}
                     />
                     <TextField
                       id="outlined-uncontrolled"
-                      label="DOB"
+                      label="Mobile"
                       color="secondary"
+                      value={memberInfo.mob}
                     />
                     <TextField
                       id="outlined-name"
-                      label="Gothra"
+                      label="City"
                       color="secondary"
+                      value={memberInfo.city}
                     />
                     <TextField
                       id="outlined-name"
-                      label="Rasi"
+                      label="Pincode"
                       color="secondary"
+                      value={memberInfo.pincode}
                     />
                     <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label" color="secondary">Type</InputLabel>
+                      <InputLabel id="demo-simple-select-label" color="secondary">Mode</InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        label="Type"
+                        label="Model"
                         color="secondary"
+                        value={memberInfo.dtype}
                       >
-                        <MenuItem value={10}>Madhwa Kannada</MenuItem>
-                        <MenuItem value={20}>Madhwa Desistha</MenuItem>
-                        <MenuItem value={30}>Smartha Desistha</MenuItem>
+                        <MenuItem value={"Post"}>Post</MenuItem>
+                        <MenuItem value={"Direct"}>Direct</MenuItem>
+                        <MenuItem value={"Online"}>Online</MenuItem>
                       </Select>
                     </FormControl>
                     <TextField
                       id="outlined-name"
-                      label="Height"
+                      label="line2"
                       color="secondary"
+                      value={memberInfo.line2}
                     />
                     <TextField
-                      id="outlined-name"
-                      label="Education"
+                      id="outlined-uncontrolled"
+                      label="line1"
+                      multiline
+                      rows={3}
                       color="secondary"
+                      value={memberInfo.line1}
                     />
-                    <TextField
-                      id="outlined-name"
-                      label="Profession"
-                      color="secondary"
+                    <FormControlLabel style={{ paddingBottom: "15px", color: "black" }}
+                      control={
+                        <Switch name="deactivate" color="secondary" />
+                      }
+                      label="Enabling this will deactivate the user"
                     />
-                    <TextField
-                      id="outlined-name"
-                      label="Salary"
-                      color="secondary"
-                    />
-                    <TextField
-                      id="outlined-name"
-                      label="Place"
-                      color="secondary"
-                    />
-                    <TextField
-                      id="outlined-name"
-                      label="Contact Name"
-                      color="secondary"
-                    />
-                    <TextField
-                      id="outlined-name"
-                      label="Contact Number"
-                      color="secondary"
-                    />
-
                     <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<SaveIcon />}>Save changes</Button>
                     <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<AutorenewIcon />}>Renew</Button>
                   </Box>
-                </Box>
-              </Collapse>
+                </Collapse>
 
-              <ListItemButton onClick={() => toggleCollapse("payment")}>
-                <ListItemIcon>
-                  <PaidIcon fontSize="large" />
-                </ListItemIcon>
-                <ListItemText primary="Payment" secondary="Payment history" />
-                {collapseOpen.payment ? <ExpandLess /> : <ExpandMore />}
-              </ListItemButton>
-              <Collapse in={collapseOpen.payment} timeout="auto" unmountOnExit>
-                <List className="admin-main-payment-hist">
-                  {paymentHistory.map((payment, index) => (
-                    <ListItem key={payment.suid} style={{ borderBottom: (index != paymentHistory.length - 1) ? "1px solid lightgray" : '' }}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={9}>
-                          <ListItemText style={{ overflowWrap: 'anywhere' }} primary={formatDateWithMonthName(payment.recdate)} secondary={formatPaymentInfo(payment)} />
-                          <Button color="secondary" variant="outlined" startIcon={<ShareIcon fontSize='small' />} onClick={() => generateImage(payment)} size="small" className="share-receipt-button">
-                            Recipt
-                          </Button>
+                <ListItemButton onClick={() => toggleCollapse("matrimony")}>
+                  <ListItemIcon>
+                    <WcIcon fontSize="large" />
+                  </ListItemIcon>
+                  <ListItemText primary="Matrimony" secondary="Matrimony subscription details - till 12/12/2021" />
+                  {collapseOpen.matrimony ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={collapseOpen.matrimony} timeout="auto" >
+                  <Box sx={{
+                    marginTop: 2
+                  }}>
+                    <Box sx={{
+                      display: 'grid',
+                      gridTemplateColumns: { sm: '1fr 1fr' },
+                      gap: 2,
+                      marginTop: 2
+                    }}>
+                      <TextField
+                        id="outlined-name"
+                        label="Name"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-uncontrolled"
+                        label="DOB"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Gothra"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Rasi"
+                        color="secondary"
+                      />
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label" color="secondary">Type</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          label="Type"
+                          color="secondary"
+                        >
+                          <MenuItem value={10}>Madhwa Kannada</MenuItem>
+                          <MenuItem value={20}>Madhwa Desistha</MenuItem>
+                          <MenuItem value={30}>Smartha Desistha</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <TextField
+                        id="outlined-name"
+                        label="Height"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Education"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Profession"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Salary"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Place"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Contact Name"
+                        color="secondary"
+                      />
+                      <TextField
+                        id="outlined-name"
+                        label="Contact Number"
+                        color="secondary"
+                      />
+
+                      <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<SaveIcon />}>Save changes</Button>
+                      <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<AutorenewIcon />}>Renew</Button>
+                    </Box>
+                  </Box>
+                </Collapse>
+
+                <ListItemButton onClick={() => toggleCollapse("payment")}>
+                  <ListItemIcon>
+                    <PaidIcon fontSize="large" />
+                  </ListItemIcon>
+                  <ListItemText primary="Payment" secondary="Payment history" />
+                  {collapseOpen.payment ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={collapseOpen.payment} timeout="auto" >
+                  <List className="admin-main-payment-hist">
+                    {paymentHistory.map((payment, index) => (
+                      <ListItem key={payment.suid} style={{ borderBottom: (index != paymentHistory.length - 1) ? "1px solid lightgray" : '' }}>
+                        <Grid container spacing={2}>
+                          <Grid item xs={9}>
+                            <ListItemText style={{ overflowWrap: 'anywhere' }} primary={formatDateWithMonthName(payment.recdate)} secondary={formatPaymentInfo(payment)} />
+                            <Button color="secondary" variant="outlined" startIcon={<ShareIcon fontSize='small' />} onClick={() => generateImage(payment)} size="small" className="share-receipt-button">
+                              Recipt
+                            </Button>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <ListItemText primary={payment.amt} sx={{ textAlign: "end" }} />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={3}>
-                          <ListItemText primary={payment.amt} sx={{ textAlign: "end" }} />
-                        </Grid>
-                      </Grid>
-                    </ListItem>
-                  ))
-                  }
-                </List>
-              </Collapse>
+                      </ListItem>
+                    ))
+                    }
+                  </List>
+                </Collapse>
+              </CardContent>
+            </Card>
+          </>
+        ) : ""}
+        <Box sx={{ position: 'fixed', bottom: "20px", right: "20px" }}>
+          <SpeedDial
+            ariaLabel="SpeedDial basic example"
+            icon={<SpeedDialIcon />}
+          >
+            {actions.map((action) => (
+              <SpeedDialAction
+                key={action.name}
+                icon={action.icon}
+                tooltipTitle={action.name}
+              />
+            ))}
+          </SpeedDial>
+        </Box>
+        {memberInfo ? (<Receipt ref={receiptSection} selectedPayment={selectedPayment} memberInfo={memberInfo} />) : ''}
+      </div>
+      <Grid container spacing={2} sx={{ marginTop: 2 }}>
+        <Grid item xs={12} md={9}>
+          <Card sx={{ borderRadius: "20px" }}>
+            <CardContent>
+              <canvas ref={chartRef} id="bar-chart"></canvas>
             </CardContent>
           </Card>
-        </>
-      ) : ""}
-      <Box sx={{ position: 'fixed', bottom: "20px", right: "20px" }}>
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          icon={<SpeedDialIcon />}
-        >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-            />
-          ))}
-        </SpeedDial>
-      </Box>
-      {memberInfo ? (<Receipt ref={receiptSection} selectedPayment={selectedPayment} memberInfo={memberInfo} />) : '' }
-    </div>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Card sx={{ padding: "8px", borderRadius: "20px" }}>
+            <CardContent>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Select Year</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Select Year"
+                  value = {selectedSalesYear}
+                  onChange={handleYearChange}
+                >
+                    {availableYears.length > 0 ? availableYears.map((year)=>{
+                      return <MenuItem key={year} value={year}>{year}</MenuItem>
+                    }) : <p>test</p>}
+                </Select>
+              </FormControl>
+              <Card className="sales-amount-card">
+                <CardContent>
+                  <span style={{textDecoration: 'underline'}}>Magazine Total</span>
+                  <Grid container direction="row" alignItems="center" sx={{fontSize:"48px"}}>
+                    <CurrencyRupeeIcon /><span>{salesData.reduce((total, amount)=>{
+                      return total+=amount;
+                    },0)}</span>
+                  </Grid>
+                </CardContent>
+              </Card>
+              <Card className="sales-amount-card" sx={{backgroundColor: "#1e88e5 !important" }}>
+                <CardContent>
+                <span style={{textDecoration: 'underline'}}>Magazine Total</span>
+                  <Grid container direction="row" alignItems="center" sx={{fontSize:"48px"}}>
+                    <CurrencyRupeeIcon />2000
+                  </Grid>
+                </CardContent>
+              </Card>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </>
   );
 }
