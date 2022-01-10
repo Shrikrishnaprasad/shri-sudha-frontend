@@ -79,7 +79,8 @@ export default function Admin() {
   const [snackbarMsg, setSnackbarMsg] = useState({
     open: false,
     horizontal: 'right',
-    vertical: 'top'
+    vertical: 'top',
+    message: ''
   })
   const { open, horizontal, vertical } = snackbarMsg;
 
@@ -114,7 +115,7 @@ export default function Admin() {
         let subscriberInfo = data.data;
         if (subscriberInfo.success) {
           setMemberInfo(subscriberInfo.member_info[0]);
-          subscriberInfo.member_info[0] == undefined ? setSnackbarMsg({ ...snackbarMsg, open: true }) : setSnackbarMsg({ ...snackbarMsg, open: false });
+          subscriberInfo.member_info[0] == undefined ? setSnackbarMsg({ ...snackbarMsg, message: 'No members found', open: true }) : setSnackbarMsg({ ...snackbarMsg, open: false });
         }
       })
       axios.get(`http://localhost:3005/paymentHistory/${refNo}`).then((payments) => {
@@ -129,6 +130,23 @@ export default function Admin() {
   const handleYearChange = (event) => {
     console.log(event.target.value);
     setSelectedSalesYear(event.target.value)
+  }
+
+  const handleMemberInfoChange = (event) => {
+    memberInfo[event.target.name] = event.target.value;
+    console.log(memberInfo)
+    let updatedMemberInfo = {...memberInfo};
+    setMemberInfo(updatedMemberInfo);
+  }
+
+  const updateDetails = () => {
+    axios.put('http://localhost:3005/memberInfo',{memberInfo: memberInfo}).then(({data})=>{
+      console.log(data)
+      if(data.success) {
+        setSnackbarMsg({...snackbarMsg, message: 'Details updated successfully', open: true});
+        toggleCollapse('general')
+      }
+    })
   }
 
   useEffect(()=>{
@@ -220,14 +238,14 @@ export default function Admin() {
           anchorOrigin={{ vertical, horizontal }}
           open={open}
         >
-          <Alert severity="error">No records found !</Alert>
+          <Alert severity="error">{snackbarMsg.message}</Alert>
         </Snackbar>
         {memberInfo ? (
           <>
             <Card>
               <CardHeader avatar={
                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                  G
+                  {memberInfo.mname.charAt(0)}
                 </Avatar>
               }
                 title={memberInfo.mname}
@@ -238,7 +256,7 @@ export default function Admin() {
                   {
                     //TODO change it to dynamic values 
                   }
-                  <Chip icon={<LocalShippingIcon />} label="04/12/2021" color="success" variant="contained" />
+                  <Chip icon={<LocalShippingIcon />} label={memberInfo.posted_date ? formatDateWithMonthName(memberInfo.posted_date): 'none'} color="success" variant="contained" />
                   <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
                 </Stack>
               </CardContent>
@@ -261,24 +279,32 @@ export default function Admin() {
                       id="outlined-name"
                       label="Name"
                       color="secondary"
+                      name='mname'
+                      onChange={(e)=>handleMemberInfoChange(e)}
                       value={memberInfo.mname}
                     />
                     <TextField
                       id="outlined-uncontrolled"
                       label="Mobile"
                       color="secondary"
+                      name='mob'
+                      onChange={(e)=>handleMemberInfoChange(e)}
                       value={memberInfo.mob}
                     />
                     <TextField
                       id="outlined-name"
                       label="City"
                       color="secondary"
+                      name='city'
+                      onChange={(e)=>handleMemberInfoChange(e)}
                       value={memberInfo.city}
                     />
                     <TextField
                       id="outlined-name"
                       label="Pincode"
                       color="secondary"
+                      name='pincode'
+                      onChange={(e)=>handleMemberInfoChange(e)}
                       value={memberInfo.pincode}
                     />
                     <FormControl fullWidth>
@@ -288,6 +314,8 @@ export default function Admin() {
                         id="demo-simple-select"
                         label="Model"
                         color="secondary"
+                        name='dtype'
+                        onChange={(e)=>handleMemberInfoChange(e)}
                         value={memberInfo.dtype}
                       >
                         <MenuItem value={"Post"}>Post</MenuItem>
@@ -299,6 +327,8 @@ export default function Admin() {
                       id="outlined-name"
                       label="line2"
                       color="secondary"
+                      name='line2'
+                      onChange={(e)=>handleMemberInfoChange(e)}
                       value={memberInfo.line2}
                     />
                     <TextField
@@ -306,7 +336,9 @@ export default function Admin() {
                       label="line1"
                       multiline
                       rows={3}
+                      name='line1'
                       color="secondary"
+                      onChange={(e)=>handleMemberInfoChange(e)}
                       value={memberInfo.line1}
                     />
                     <FormControlLabel style={{ paddingBottom: "15px", color: "black" }}
@@ -315,7 +347,7 @@ export default function Admin() {
                       }
                       label="Enabling this will deactivate the user"
                     />
-                    <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<SaveIcon />}>Save changes</Button>
+                    <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<SaveIcon />} onClick={updateDetails}>Save changes</Button>
                     <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<AutorenewIcon />}>Renew</Button>
                   </Box>
                 </Collapse>
@@ -496,7 +528,7 @@ export default function Admin() {
               </Card>
               <Card className="sales-amount-card" sx={{backgroundColor: "#1e88e5 !important" }}>
                 <CardContent>
-                <span style={{textDecoration: 'underline'}}>Magazine Total</span>
+                <span style={{textDecoration: 'underline'}}>Matrimony Total</span>
                   <Grid container direction="row" alignItems="center" sx={{fontSize:"48px"}}>
                     <CurrencyRupeeIcon />2000
                   </Grid>

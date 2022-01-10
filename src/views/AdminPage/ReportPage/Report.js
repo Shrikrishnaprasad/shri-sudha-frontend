@@ -199,8 +199,8 @@ export default function Report() {
 
     const getUsersForReport = async () => {
         axios.get(`http://localhost:3005/users/report/${selectedDateForReport}`).then(({ data }) => {
-            data.success ? setAllMembers(data.users) : setAllMembers([]);
-            setLastReportDate(data.lastReportDate);
+            data.success ? setAllMembers(data.users_by_reportDate.users) : setAllMembers([]);
+            setLastReportDate(data.users_by_reportDate.lastReportDate);
         })
     }
 
@@ -261,8 +261,8 @@ export default function Report() {
                         <CardContent>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
-                                    <h5>Previous report taken on</h5>
-                                    <p>{lastReportDate}</p>
+                                    <h5><b>Previous report taken on</b></h5>
+                                    <p>{new Date(lastReportDate).toDateString()}</p>
                                 </div>
                                 <div className='admin-reports-user-icon'>
                                     <DriveFileMoveIcon />
@@ -276,8 +276,8 @@ export default function Report() {
                         <CardContent>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '700' }}>
                                 <div>
-                                    <h5>New Members</h5>
-                                    <button onClick={getMembersAfterFileExport}>click here</button>
+                                    <h5><b>New Members</b></h5>
+                                    <a style={{textDecoration: "underline", color: "white", cursor: "pointer"}} onClick={getMembersAfterFileExport}>click here</a>
                                 </div>
                                 <div className='admin-reports-user-icon'>
                                     <AccountCircleIcon />
