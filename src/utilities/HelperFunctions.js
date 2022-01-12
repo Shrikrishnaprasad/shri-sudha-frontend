@@ -19,12 +19,18 @@ export const MONTHS_NAME = {
     return formattedDate;
   }
 
+  export const formatDateToYYMMDD = (date) => {
+    return date.split("T")[0];
+    // console.log(date.getFullYear()+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+('0'+date.getDate()).slice(-2))
+    // return date.getFullYear()+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+('0'+date.getDate()).slice(-2);
+  }
+
   export const formatPaymentInfo = (payment) => {
     let formattedPaymentInfo = '';
     formattedPaymentInfo += payment.ptype;
-    if (payment.bankname != 'NIL')
+    if (payment.bankname && payment.bankname != 'NIL')
       formattedPaymentInfo += "/" + payment.bankname;
-    if (payment.tid != 'NIL')
+    if (payment.tid && payment.tid != 'NIL')
       formattedPaymentInfo += "/" + payment.tid;
     return formattedPaymentInfo;
   }

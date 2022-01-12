@@ -54,6 +54,7 @@ import Receipt from 'components/Receipt/Receipt';
 //utilities
 import { formatDateWithMonthName, formatPaymentInfo } from '../../../utilities/HelperFunctions.js';
 import Chart from 'chart.js/auto'
+import Renew from 'components/Renew/Renew.js';
 
 const actions = [
   { icon: <MenuBookIcon fontSize="medium" />, name: 'Upload Book' }
@@ -256,7 +257,7 @@ export default function Admin() {
                   {
                     //TODO change it to dynamic values 
                   }
-                  <Chip icon={<LocalShippingIcon />} label={memberInfo.posted_date ? formatDateWithMonthName(memberInfo.posted_date): 'none'} color="success" variant="contained" />
+                  <Chip icon={<LocalShippingIcon />} label={memberInfo.posted_date ? formatDateWithMonthName(memberInfo.posted_date): 'not posted'} color="success" variant="contained" />
                   <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
                 </Stack>
               </CardContent>
@@ -347,8 +348,9 @@ export default function Admin() {
                       }
                       label="Enabling this will deactivate the user"
                     />
-                    <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<SaveIcon />} onClick={updateDetails}>Save changes</Button>
-                    <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<AutorenewIcon />}>Renew</Button>
+                    <Button style={{border: "3px solid"}} variant="outlined" color="secondary" fullWidth size="large" startIcon={<SaveIcon />} onClick={updateDetails}>Save changes</Button>
+                    {/* <Button variant="contained" color="secondary" fullWidth size="large" startIcon={<AutorenewIcon />}>Renew</Button> */}
+                    <Renew rno={memberInfo.rno} exDate = {paymentHistory[0] ?  paymentHistory[0].exdate : ''}/>
                   </Box>
                 </Collapse>
 
