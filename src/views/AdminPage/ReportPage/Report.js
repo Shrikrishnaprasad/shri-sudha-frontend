@@ -32,6 +32,7 @@ import axios from 'axios';
 //csv export 
 import { CSVLink } from "react-csv";
 import '../AdminMain.scss';
+import config from '../../../config';
 
 const tableRowHeaders = [
     {
@@ -198,7 +199,7 @@ export default function Report() {
     }
 
     const getUsersForReport = async () => {
-        axios.get(`http://localhost:3005/users/report/${selectedDateForReport}`).then(({ data }) => {
+        axios.get(`${config.apiBaseUrl}/users/report/${selectedDateForReport}`).then(({ data }) => {
             data.success ? setAllMembers(data.users_by_reportDate.users) : setAllMembers([]);
             setLastReportDate(data.users_by_reportDate.lastReportDate);
         })
@@ -218,7 +219,7 @@ export default function Report() {
         }
         const selectedMembersRefNo = selectedMemberList.map(member=> member.refno);
         await setSelectedMembers(selectedMemberList)
-        await axios.post(`http://localhost:3005/users/report/exportDate`, {"members": selectedMembersRefNo}).then(({data})=>{
+        await axios.post(`${config.apiBaseUrl}/users/report/exportDate`, {"members": selectedMembersRefNo}).then(({data})=>{
             if(!data.success)
                 console.log('Error in updating export date')
         })

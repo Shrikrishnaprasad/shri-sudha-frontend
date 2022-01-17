@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import axios from 'axios';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { formatDateWithMonthName, formatDateToYYMMDD } from 'utilities/HelperFunctions';
+import config from '../../config.js'; 
 
 export default function Renew({rno, exDate}) {
     const [open, setOpen] = React.useState(false);
@@ -36,7 +37,7 @@ export default function Renew({rno, exDate}) {
     const handleSubmit = () =>{
         console.log(renewalData)
         console.log(formatDateToYYMMDD(renewalData.dueDate))
-        axios.put("http://localhost:3005/update/paymentInfo", {paymentInfo: renewalData}).then(({data})=>{
+        axios.put(config.apiBaseUrl+"/update/paymentInfo", {paymentInfo: renewalData}).then(({data})=>{
             if(data.success){
                 setOpen(false);
             }

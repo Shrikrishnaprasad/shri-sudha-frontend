@@ -55,6 +55,7 @@ import Receipt from 'components/Receipt/Receipt';
 import { formatDateWithMonthName, formatPaymentInfo } from '../../../utilities/HelperFunctions.js';
 import Chart from 'chart.js/auto'
 import Renew from 'components/Renew/Renew.js';
+import config from '../../../config.js';
 
 const actions = [
   { icon: <MenuBookIcon fontSize="medium" />, name: 'Upload Book' }
@@ -112,14 +113,14 @@ export default function Admin() {
   const searchForRefNo = (e) => {
     e.preventDefault();
     if (refNo) {
-      axios.get(`http://localhost:3005/member/${refNo}`).then((data) => {
+      axios.get(`${config.apiBaseUrl}/member/${refNo}`).then((data) => {
         let subscriberInfo = data.data;
         if (subscriberInfo.success) {
           setMemberInfo(subscriberInfo.member_info[0]);
           subscriberInfo.member_info[0] == undefined ? setSnackbarMsg({ ...snackbarMsg, message: 'No members found', open: true }) : setSnackbarMsg({ ...snackbarMsg, open: false });
         }
       })
-      axios.get(`http://localhost:3005/paymentHistory/${refNo}`).then((payments) => {
+      axios.get(`${config.apiBaseUrl}/paymentHistory/${refNo}`).then((payments) => {
         let paymentsHistory = payments.data;
         if (paymentsHistory.success) {
           setPaymentHistory(paymentsHistory.payment_history);
@@ -141,7 +142,7 @@ export default function Admin() {
   }
 
   const updateDetails = () => {
-    axios.put('http://localhost:3005/memberInfo',{memberInfo: memberInfo}).then(({data})=>{
+    axios.put(`${config.apiBaseUrl}/memberInfo`,{memberInfo: memberInfo}).then(({data})=>{
       console.log(data)
       if(data.success) {
         setSnackbarMsg({...snackbarMsg, message: 'Details updated successfully', open: true});
@@ -173,7 +174,7 @@ export default function Admin() {
   })
 
   useEffect(() => {
-    axios.get('http://localhost:3005/sales').then(async ({data})=>{
+    axios.get(`${config.apiBaseUrl}/sales`).then(async ({data})=>{
       if(data.success){
         let salesInfo = data.sales_info;
         setSalesInfo(salesInfo);

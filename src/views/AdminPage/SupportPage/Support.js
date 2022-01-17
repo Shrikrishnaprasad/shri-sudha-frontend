@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import config from '../../../config.js';
 
 export default function Support() {
 
@@ -20,13 +21,13 @@ export default function Support() {
   },[])
 
   const fetchData = () =>{
-    axios.get('http://localhost:3005/users/reportTakenDate').then(({data})=>{
+    axios.get(`${config.apiBaseUrl}/users/reportTakenDate`).then(({data})=>{
       if(data.success) {
         setUsersByReportDate(data.users)
       }
   })
 
-  axios.get('http://localhost:3005/report/history').then(({data})=>{
+  axios.get(`${config.apiBaseUrl}/report/history`).then(({data})=>{
     if(data.success) {
       setReportHistory(data.reports_history)
     }
@@ -45,7 +46,7 @@ export default function Support() {
       postedDate: new Date(usersByReportDate[index].postDate),
       count: usersByReportDate[index].total_members
     }
-    axios.put("http://localhost:3005/postedDate", req).then(({data}) => {
+    axios.put(`${config.apiBaseUrl}/postedDate`, req).then(({data}) => {
       if(data.success){
         fetchData();
       }
