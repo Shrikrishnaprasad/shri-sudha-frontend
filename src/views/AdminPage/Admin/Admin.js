@@ -56,6 +56,8 @@ import { formatDateWithMonthName, formatPaymentInfo } from '../../../utilities/H
 import Chart from 'chart.js/auto'
 import Renew from 'components/Renew/Renew.js';
 import config from '../../../config.js';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
 
 const actions = [
   { icon: <MenuBookIcon fontSize="medium" />, name: 'Upload Book' }
@@ -147,6 +149,15 @@ export default function Admin() {
       if(data.success) {
         setSnackbarMsg({...snackbarMsg, message: 'Details updated successfully', open: true});
         toggleCollapse('general')
+      }
+    })
+  }
+
+  const handleBookNtReceivedStats = (event) => {
+    console.log(event.target.checked)
+    axios.post(`${config.apiBaseUrl}/book/receivedSts`, {rno: memberInfo.rno, bookReceivedSts: event.target.checked}).then(({data})=>{
+      if(!data.success){
+        console.log('Error in updating book not received status');
       }
     })
   }
@@ -261,6 +272,9 @@ export default function Admin() {
                   <Chip icon={<LocalShippingIcon />} label={memberInfo.posted_date ? formatDateWithMonthName(memberInfo.posted_date): 'not posted'} color="success" variant="contained" />
                   <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
                 </Stack>
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox onChange= {(e)=>handleBookNtReceivedStats(e)} color='secondary'/>} label="Book not received" style={{color: 'black'}}/>
+                </FormGroup>
               </CardContent>
               <CardContent>
                 <ListItemButton onClick={() => toggleCollapse("general")}>

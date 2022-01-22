@@ -139,11 +139,11 @@ export default function Report() {
     }
 
     const doPagination = () => {
-        let memberList = filteredList.length > 0 ? filteredList : allMembers;
-        if (memberList.length > 0) {
+        let memberList = filteredList.length > 0 ? filteredList : [];//allMembers;
+       // if (memberList.length > 0) {
             let paginatedMembers = memberList.slice((paginationInfo.currentPage * paginationInfo.noOfRecords), (paginationInfo.currentPage * paginationInfo.noOfRecords) + paginationInfo.noOfRecords);
             setPaginatedMembers(paginatedMembers);
-        }
+        //}
     }
 
     const handleFilterChange = (event) => {
@@ -156,10 +156,16 @@ export default function Report() {
 
     const handleDeliveryTypeChange = (event) => {
         setDeliveryType(event.target.value);
-        let filteredUsers = allMembers.filter((member) => {
-            return member.dtype.toLowerCase() == event.target.value.toLowerCase()
-        })
-        event.target.value == 'all' ? setFilteredList(allMembers) : setFilteredList(filteredUsers);
+        if(event.target.value != 'not received') {
+            let filteredUsers = allMembers.filter((member) => {
+                return member.dtype.toLowerCase() == event.target.value.toLowerCase()
+            })
+            event.target.value == 'all' ? setFilteredList(allMembers) : setFilteredList(filteredUsers);
+        } else {
+            axios.get(`${config.apiBaseUrl}/book/notReceived`).then(({data})=>{
+                setFilteredList(data.users)
+            })
+        }
     }
 
     const handleSelectAll = () => {
@@ -199,8 +205,13 @@ export default function Report() {
     }
 
     const getUsersForReport = async () => {
-        axios.get(`${config.apiBaseUrl}/users/report/${selectedDateForReport}`).then(({ data }) => {
-            data.success ? setAllMembers(data.users_by_reportDate.users) : setAllMembers([]);
+        await axios.get(`${config.apiBaseUrl}/users/report/${selectedDateForReport}`).then(({ data }) => {
+            if(data.success) {
+                setAllMembers(data.users_by_reportDate.users)
+                setFilteredList(data.users_by_reportDate.users)
+            }
+            else 
+                setAllMembers([]);
             setLastReportDate(data.users_by_reportDate.lastReportDate);
         })
     }
@@ -235,8 +246,8 @@ export default function Report() {
         setFilteredList(newMembers);
     }
 
-    useEffect(() => {
-        getUsersForReport();
+    useEffect(async() => {
+        await getUsersForReport();
     }, [])
 
     useEffect(() => {
@@ -314,6 +325,7 @@ export default function Report() {
                                             <MenuItem value={'2nd post'}>2nd Post</MenuItem>
                                             <MenuItem value={'direct'}>Direct</MenuItem>
                                             <MenuItem value={'couriers'}>Couriers</MenuItem>
+                                            <MenuItem value={'not received'}>Not received</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
