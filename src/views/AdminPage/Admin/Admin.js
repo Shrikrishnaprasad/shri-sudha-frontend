@@ -273,7 +273,7 @@ export default function Admin() {
                   <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
                 </Stack>
                 <FormGroup>
-                  <FormControlLabel control={<Checkbox onChange= {(e)=>handleBookNtReceivedStats(e)} color='secondary'/>} label="Book not received" style={{color: 'black'}}/>
+                  <FormControlLabel control={<Checkbox checked={(memberInfo.book_not_received == 1) ? true : false} onChange= {(e)=>handleBookNtReceivedStats(e)} color='secondary'/>} label="Book not received" style={{color: 'black'}}/>
                 </FormGroup>
               </CardContent>
               <CardContent>
