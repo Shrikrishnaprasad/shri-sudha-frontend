@@ -154,7 +154,7 @@ export default function Admin() {
   }
 
   const handleBookNtReceivedStats = (event) => {
-    console.log(event.target.checked)
+    setMemberInfo({...memberInfo, book_not_received: event.target.checked ? 1 : 0})
     axios.post(`${config.apiBaseUrl}/book/receivedSts`, {rno: memberInfo.rno, bookReceivedSts: event.target.checked}).then(({data})=>{
       if(!data.success){
         console.log('Error in updating book not received status');
@@ -192,7 +192,6 @@ export default function Admin() {
         let salesYear = salesInfo.map(sales=> sales.year).filter((value, index, self) => self.indexOf(value) === index)
         await setAvailableYears([...salesYear]);
         await setSalesData(salesInfo.filter((sales)=> sales.year == selectedSalesYear).map((salesData)=> salesData.total_amount));
-        //console.log(salesData);
       }
     })
     new Chart(chartRef.current, {
@@ -249,7 +248,9 @@ export default function Admin() {
         </form>
         <Snackbar
           anchorOrigin={{ vertical, horizontal }}
+          autoHideDuration={5000}
           open={open}
+          onClose={() => setSnackbarMsg({...snackbarMsg, open: false})}
         >
           <Alert severity="error">{snackbarMsg.message}</Alert>
         </Snackbar>
@@ -273,7 +274,7 @@ export default function Admin() {
                   <Chip icon={<TimelapseIcon />} label={paymentHistory[0] ? formatDateWithMonthName(paymentHistory[0].exdate) : ''} color="primary" variant="contained" />
                 </Stack>
                 <FormGroup>
-                  <FormControlLabel control={<Checkbox checked={(memberInfo.book_not_received == 1) ? true : false} onChange= {(e)=>handleBookNtReceivedStats(e)} color='secondary'/>} label="Book not received" style={{color: 'black'}}/>
+                  <FormControlLabel control={<Checkbox checked={memberInfo.book_not_received == 1 ? true : false} onChange= {(e)=>handleBookNtReceivedStats(e)} color='secondary'/>} label="Book not received" style={{color: 'black'}}/>
                 </FormGroup>
               </CardContent>
               <CardContent>
@@ -508,7 +509,7 @@ export default function Admin() {
         </Box>
         {memberInfo ? (<Receipt ref={receiptSection} selectedPayment={selectedPayment} memberInfo={memberInfo} />) : ''}
       </div>
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
+      { !memberInfo ? (<Grid container spacing={2} sx={{ marginTop: 2 }}>
         <Grid item xs={12} md={9}>
           <Card sx={{ borderRadius: "20px" }}>
             <CardContent>
@@ -554,7 +555,8 @@ export default function Admin() {
             </CardContent>
           </Card>
         </Grid>
-      </Grid>
+      </Grid>) : ''
+      }
     </>
   );
 }

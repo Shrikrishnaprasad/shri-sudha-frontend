@@ -1,5 +1,5 @@
 const config = {
-    apiBaseUrl: 'http://localhost:3005'
-}
+    apiBaseUrl: 'https://shri-sudha-server.herokuapp.com'
+}//'http://localhost:3005' 
 
 export default config;

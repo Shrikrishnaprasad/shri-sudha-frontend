@@ -123,7 +123,9 @@ export default function Renew({rno, exDate}) {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12}>
+                        { (renewalData['modeOfPayment'] != 'cash' && renewalData['modeOfPayment'] != 'Money Order') ?
+                        (
+                        <><Grid item xs={12}>
                             <TextField
                                 label="Bank Name"
                                 color="secondary"
@@ -134,19 +136,20 @@ export default function Renew({rno, exDate}) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="Transaction ID"
+                                label="Transaction ID/Cheque No/ DD No"
                                 color="secondary"
                                 fullWidth
                                 name="transactionID"
                                 onChange={(event)=> handleRenewalData(event)}
                             />
-                        </Grid>
+                        </Grid></>) : ''
+                        }
                         <Grid item xs={12}>
                             <TextField
-                                label="Amount"
                                 color="secondary"
                                 fullWidth
                                 name="amount"
+                                value= {renewalData.noOfYears * 150}
                                 onChange={(event)=> handleRenewalData(event)}
                             />
                         </Grid>
